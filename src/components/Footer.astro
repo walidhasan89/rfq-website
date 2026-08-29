@@ -201,16 +201,16 @@ const isExternal = (href: string) => href.startsWith('http');
 
   .rfq-global-footer-inner {
     position: relative;
-    width: min(calc(100% - 32px), 1280px);
+    width: min(calc(100% - 40px), 1180px);
     margin: 0 auto;
     padding: 42px 0 26px;
   }
 
   .rfq-footer-landings {
     width: 100%;
-    padding: 18px;
+    padding: 22px;
     border: 1px solid rgba(59, 130, 246, 0.16);
-    border-radius: 8px;
+    border-radius: 22px;
     background: rgba(255, 255, 255, 0.78);
     box-shadow: 0 18px 50px rgba(15, 23, 42, 0.07);
     backdrop-filter: blur(18px);
@@ -273,9 +273,9 @@ const isExternal = (href: string) => href.startsWith('http');
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 7px 11px 7px 8px;
+    padding: 7px 14px 7px 8px;
     border: 1px solid rgba(148, 163, 184, 0.24);
-    border-radius: 8px;
+    border-radius: 999px;
     background: rgba(255, 255, 255, 0.72);
     color: #1e293b;
     font-size: 12px;
@@ -300,7 +300,7 @@ const isExternal = (href: string) => href.startsWith('http');
     flex: 0 0 auto;
     width: 24px;
     height: 24px;
-    border-radius: 7px;
+    border-radius: 999px;
     color: #2563eb;
     background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(14, 165, 233, 0.08));
   }
@@ -341,17 +341,17 @@ const isExternal = (href: string) => href.startsWith('http');
   .rfq-footer-brand,
   .rfq-footer-column {
     border: 1px solid rgba(148, 163, 184, 0.18);
-    border-radius: 8px;
+    border-radius: 22px;
     background: rgba(255, 255, 255, 0.58);
     box-shadow: 0 12px 30px rgba(15, 23, 42, 0.045);
   }
 
   .rfq-footer-brand {
-    padding: 22px;
+    padding: 24px;
   }
 
   .rfq-footer-column {
-    padding: 19px;
+    padding: 22px;
   }
 
   .rfq-footer-column-featured {
@@ -444,8 +444,8 @@ const isExternal = (href: string) => href.startsWith('http');
   }
 
   .rfq-footer-column-featured a {
-    padding: 5px 6px;
-    border-radius: 8px;
+    padding: 6px 10px;
+    border-radius: 10px;
   }
 
   .rfq-footer-column a:hover {
@@ -537,12 +537,18 @@ const isExternal = (href: string) => href.startsWith('http');
 
   @media (max-width: 680px) {
     .rfq-global-footer-inner {
-      width: min(calc(100% - 28px), 1280px);
+      width: min(calc(100% - 28px), 1180px);
       padding-top: 34px;
     }
 
     .rfq-footer-landings {
-      padding: 15px;
+      padding: 16px;
+      border-radius: 18px;
+    }
+
+    .rfq-footer-brand,
+    .rfq-footer-column {
+      border-radius: 18px;
     }
 
     .rfq-footer-landings-head,
