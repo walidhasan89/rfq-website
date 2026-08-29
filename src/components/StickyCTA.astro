@@ -1,0 +1,155 @@
+---
+import { site } from '@/data/site';
+---
+<div class="rfq-sticky-cta" data-rfq-sticky-cta hidden>
+  <span class="rfq-sticky-cta-text">🚀 Start automating your RFQ processing today</span>
+  <a class="rfq-sticky-cta-button" href={site.chromeStoreUrl} target="_blank" rel="noopener noreferrer">
+    Add to Chrome - Free
+  </a>
+  <button class="rfq-sticky-cta-close" type="button" aria-label="Dismiss sticky call to action" data-rfq-sticky-close>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </button>
+</div>
+
+<script is:inline>
+  (() => {
+    const bar = document.querySelector('[data-rfq-sticky-cta]');
+    const close = document.querySelector('[data-rfq-sticky-close]');
+    if (!bar || !close) return;
+
+    let dismissed = false;
+
+    const update = () => {
+      const shouldShow = window.scrollY > 600 && !dismissed;
+      bar.hidden = !shouldShow;
+      bar.dataset.visible = shouldShow ? 'true' : 'false';
+    };
+
+    close.addEventListener('click', () => {
+      dismissed = true;
+      bar.hidden = true;
+      bar.dataset.visible = 'false';
+    });
+
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  })();
+</script>
+
+<style>
+  .rfq-sticky-cta {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    z-index: 80;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: min(calc(100vw - 28px), 680px);
+    padding: 12px 14px 12px 18px;
+    border: 1px solid rgba(203, 213, 225, 0.85);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #0f172a;
+    box-shadow: 0 22px 60px rgba(15, 23, 42, 0.18);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    transform: translateX(-50%) translateY(14px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 220ms ease, transform 220ms ease;
+  }
+
+  .rfq-sticky-cta:not([hidden])[data-visible='true'] {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  :global(html.dark) .rfq-sticky-cta,
+  :global(html[data-theme='dark']) .rfq-sticky-cta,
+  :global(body:has(.dark)) .rfq-sticky-cta {
+    border-color: rgba(148, 163, 184, 0.24);
+    background: rgba(15, 23, 42, 0.94);
+    color: #e2e8f0;
+    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.38);
+  }
+
+  .rfq-sticky-cta-text {
+    min-width: 0;
+    color: inherit;
+    font-family: "Satoshi", system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 750;
+    white-space: nowrap;
+  }
+
+  .rfq-sticky-cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 0 18px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #4ad1fc 0%, #2b92fc 28%, #0366f9 58%, #0024ba 100%);
+    color: #ffffff;
+    font-family: "Satoshi", system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 14px 30px rgba(3, 102, 249, 0.28);
+  }
+
+  .rfq-sticky-cta-close {
+    display: inline-grid;
+    place-items: center;
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #64748b;
+    cursor: pointer;
+    transition: background 160ms ease, color 160ms ease;
+  }
+
+  .rfq-sticky-cta-close:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+  }
+
+  :global(html.dark) .rfq-sticky-cta-close:hover,
+  :global(html[data-theme='dark']) .rfq-sticky-cta-close:hover,
+  :global(body:has(.dark)) .rfq-sticky-cta-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+  }
+
+  @media (max-width: 620px) {
+    .rfq-sticky-cta {
+      left: 14px;
+      right: 14px;
+      bottom: 14px;
+      max-width: none;
+      justify-content: space-between;
+      transform: translateY(14px);
+    }
+
+    .rfq-sticky-cta:not([hidden])[data-visible='true'] {
+      transform: translateY(0);
+    }
+
+    .rfq-sticky-cta-text {
+      display: none;
+    }
+
+    .rfq-sticky-cta-button {
+      flex: 1;
+    }
+  }
+</style>

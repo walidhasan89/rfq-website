@@ -1,0 +1,189 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import FAQ from '@/components/FAQ.astro';
+import Icon from '@/components/Icon.astro';
+import { pricingPlans, seoLandingPages, site } from '@/data/site';
+
+export function getStaticPaths() {
+  const explicitLandingPageSlugs = new Set(['rfq-software-for-distributors', 'rfq-software-for-manufacturers']);
+
+  return seoLandingPages
+    .filter((page) => !explicitLandingPageSlugs.has(page.slug))
+    .map((page) => ({ params: { slug: page.slug }, props: { page } }));
+}
+
+const { page } = Astro.props;
+const relatedPages = page.related
+  .map((slug: string) => seoLandingPages.find((item) => item.slug === slug))
+  .filter(Boolean);
+
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: page.title,
+  description: page.description,
+  url: `${site.url}/${page.slug}`,
+  isPartOf: { '@type': 'WebSite', name: site.name, url: site.url },
+  about: { '@type': 'SoftwareApplication', name: site.name, applicationCategory: 'BusinessApplication' },
+};
+
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  '@id': `${site.url}/#software`,
+  name: site.name,
+  alternateName: page.eyebrow,
+  description: page.description,
+  url: `${site.url}/${page.slug}`,
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Chrome Browser, Gmail, Outlook',
+  downloadUrl: site.chromeStoreUrl,
+  featureList: page.benefits,
+  audience: {
+    '@type': 'Audience',
+    audienceType: page.audience,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: site.legalName,
+    url: site.companyUrl,
+    logo: `${site.url}/logo.png`,
+  },
+  offers: pricingPlans.map((plan) => ({
+    '@type': 'Offer',
+    name: plan.name,
+    price: String(plan.monthly),
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/InStock',
+    url: `${site.url}/${page.slug}`,
+  })),
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+    { '@type': 'ListItem', position: 2, name: page.eyebrow, item: `${site.url}/${page.slug}` },
+  ],
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: page.faq.map((item: { question: string; answer: string }) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+};
+---
+<BaseLayout title={page.metaTitle} description={page.description} canonical={`/${page.slug}`} jsonLd={[pageSchema, softwareSchema, breadcrumbSchema, faqSchema]}>
+  <section class="inner-hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="container inner-hero-layout">
+      <div data-reveal>
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span>{page.eyebrow}</span></nav>
+        <span class="eyebrow">{page.eyebrow}</span>
+        <h1>{page.title}</h1>
+        <p>{page.description}</p>
+        <div class="hero-actions">
+          <a class="button button-primary button-large" href={site.chromeStoreUrl} target="_blank" rel="noopener noreferrer"><Icon name="chrome" size={18} /> Add to Chrome, Free</a>
+          <a class="button button-secondary button-large" href="/#pricing">View pricing</a>
+        </div>
+      </div>
+      <div class="inner-hero-card" data-reveal>
+        <span><Icon name="quote" size={25} /></span>
+        <small>Designed for</small>
+        <strong>{page.audience}</strong>
+        <ul>
+          <li><Icon name="check" size={15} /> Browser-based workflow</li>
+          <li><Icon name="check" size={15} /> Branded PDF quotation</li>
+          <li><Icon name="check" size={15} /> Human review before sending</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section content-intro">
+    <div class="container content-intro-grid">
+      <article data-reveal>
+        <span class="eyebrow">The problem</span>
+        <h2>Why the current RFQ process slows teams down</h2>
+        <p>{page.problem}</p>
+      </article>
+      <article data-reveal>
+        <span class="eyebrow">The outcome</span>
+        <h2>A more consistent path from request to quotation</h2>
+        <p>{page.outcome}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section benefits-section">
+    <div class="container">
+      <div class="section-heading center" data-reveal>
+        <span class="eyebrow">Key benefits</span>
+        <h2>What this workflow helps your team improve</h2>
+      </div>
+      <div class="benefit-grid">
+        {page.benefits.map((benefit: string, index: number) => (
+          <article data-reveal style={`--delay:${index * 60}ms`}><span><Icon name="check" size={18} /></span><p>{benefit}</p></article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section workflow-section compact-workflow">
+    <div class="container">
+      <div class="section-heading center" data-reveal>
+        <span class="eyebrow">Workflow</span>
+        <h2>How RFQ AutoPilot supports the process</h2>
+      </div>
+      <div class="workflow-grid">
+        {page.workflow.map((step: { title: string; description: string }, index: number) => (
+          <article data-reveal>
+            <span>Step {String(index + 1).padStart(2, '0')}</span>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section review-warning">
+    <div class="container warning-card" data-reveal>
+      <span><Icon name="alert" size={24} /></span>
+      <div>
+        <h2>Review is required before every quotation is sent</h2>
+        <p>Verify extracted content, technical requirements, quantities, pricing, totals, lead time, payment terms, delivery conditions, compliance, and all buyer-specific information against the original RFQ.</p>
+      </div>
+    </div>
+  </section>
+
+  <FAQ items={page.faq} title={`Questions about ${page.eyebrow.toLowerCase()}`} compact />
+
+  <section class="section related-section">
+    <div class="container">
+      <div class="section-heading" data-reveal><span class="eyebrow">Related workflows</span><h2>Continue exploring RFQ AutoPilot</h2></div>
+      <div class="related-grid">
+        {relatedPages.map((related: any) => (
+          <a href={`/${related.slug}`} data-reveal>
+            <span>{related.eyebrow}</span>
+            <h3>{related.title}</h3>
+            <p>{related.description}</p>
+            <small>Learn more <Icon name="arrow-right" size={15} /></small>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="page-cta">
+    <div class="container page-cta-card" data-reveal>
+      <div><span class="eyebrow dark">Free plan available</span><h2>Try the RFQ-to-quote workflow in Chrome</h2><p>Install the extension and review the actual workflow before choosing a paid plan.</p></div>
+      <a class="button button-white button-large" href={site.chromeStoreUrl} target="_blank" rel="noopener noreferrer"><Icon name="chrome" size={18} /> Add to Chrome</a>
+    </div>
+  </section>
+</BaseLayout>

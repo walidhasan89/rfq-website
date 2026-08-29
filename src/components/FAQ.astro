@@ -1,0 +1,35 @@
+---
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+interface Props {
+  items: FAQItem[];
+  title?: string;
+  description?: string;
+  compact?: boolean;
+}
+const {
+  items,
+  title = 'Common questions about RFQ AutoPilot',
+  description = 'Clear answers about the extension, workflow, pricing, and review responsibilities.',
+  compact = false,
+} = Astro.props;
+---
+<section class:list={['section', 'faq-section', compact && 'compact']} id={compact ? undefined : 'faq'}>
+  <div class="container faq-layout">
+    <div class="section-heading" data-reveal>
+      <span class="eyebrow">FAQ</span>
+      <h2>{title}</h2>
+      <p>{description}</p>
+    </div>
+    <div class="faq-list" data-reveal>
+      {items.map((item, index) => (
+        <details open={index === 0}>
+          <summary>{item.question}<span aria-hidden="true"></span></summary>
+          <div><p>{item.answer}</p></div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

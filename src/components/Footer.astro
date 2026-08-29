@@ -1,0 +1,570 @@
+---
+import { site } from '@/data/site';
+
+const iconPaths = {
+  automation: ['M13 2 3 14h8l-1 8 11-13h-8l1-7Z'],
+  inbox: ['M4 4h16v16H4z', 'M4 7l8 6 8-6'],
+  factory: ['M3 21h18', 'M4 21V9l5 4V9l5 4V7h6v14'],
+  ai: ['M12 2v4', 'M12 18v4', 'M4.93 4.93l2.83 2.83', 'M16.24 16.24l2.83 2.83', 'M2 12h4', 'M18 12h4', 'M4.93 19.07l2.83-2.83', 'M16.24 7.76l2.83-2.83', 'M9 12a3 3 0 1 0 6 0 3 3 0 0 0-6 0Z'],
+  quote: ['M6 4h12v16H6z', 'M9 8h6', 'M9 12h6', 'M9 16h4'],
+  pdf: ['M7 3h7l4 4v14H7z', 'M14 3v5h5', 'M9 13h6', 'M9 17h4'],
+  chrome: ['M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z', 'M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z', 'M21.17 8H12', 'M3.95 6.06 8.54 14', 'M10.88 21.94 15.46 14'],
+  distribution: ['M4 7h16', 'M4 12h16', 'M4 17h16', 'M7 4v16', 'M17 4v16'],
+  export: ['M3 12h18', 'M12 3a15 15 0 0 1 0 18', 'M12 3a15 15 0 0 0 0 18'],
+  outlook: ['M4 5h11v14H4z', 'M15 8h5v8h-5', 'M7 10a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z'],
+  procurement: ['M6 6h15l-2 8H8L6 6Z', 'M6 6 5 3H2', 'M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z', 'M18 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z'],
+  product: ['M12 3l8 4v10l-8 4-8-4V7l8-4Z', 'M12 12l8-5', 'M12 12v9', 'M12 12 4 7'],
+  mail: ['M4 4h16v16H4z', 'M4 7l8 6 8-6'],
+  user: ['M20 21a8 8 0 0 0-16 0', 'M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z'],
+  building: ['M4 21V5a2 2 0 0 1 2-2h8v18', 'M14 8h4a2 2 0 0 1 2 2v11', 'M8 7h2', 'M8 11h2', 'M8 15h2'],
+  shield: ['M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z'],
+  file: ['M7 3h7l5 5v13H7z', 'M14 3v6h5'],
+  bolt: ['M13 2 4 14h7l-1 8 10-13h-7l1-7Z'],
+} as const;
+
+type IconName = keyof typeof iconPaths;
+
+const landingPages = [
+  { label: 'RFQ Automation', href: '/rfq-automation-software', icon: 'automation' as IconName },
+  { label: 'Email Management', href: '/rfq-email-management-tool', icon: 'inbox' as IconName },
+  { label: 'Manufacturers', href: '/rfq-software-for-manufacturers', icon: 'factory' as IconName },
+  { label: 'AI Processing', href: '/ai-rfq-processing-tool', icon: 'ai' as IconName },
+  { label: 'Quotation Email', href: '/quotation-email-automation', icon: 'quote' as IconName },
+  { label: 'PDF Extraction', href: '/rfq-data-extraction-from-pdf', icon: 'pdf' as IconName },
+  { label: 'Gmail Sales', href: '/gmail-chrome-extension-for-sales', icon: 'chrome' as IconName },
+  { label: 'Distributors', href: '/rfq-software-for-distributors', icon: 'distribution' as IconName },
+  { label: 'Export Teams', href: '/rfq-management-for-export-companies', icon: 'export' as IconName },
+  { label: 'Outlook RFQ', href: '/outlook-add-in-for-rfq', icon: 'outlook' as IconName },
+  { label: 'Procurement', href: '/procurement-chrome-extension', icon: 'procurement' as IconName },
+];
+
+const productLinks = [
+  { label: 'ReplyChief', href: 'https://replychief.com', icon: 'product' as IconName },
+  { label: 'AuditPilot', href: 'https://siteauditpilot.com', icon: 'shield' as IconName },
+  { label: 'RFQ AutoPilot', href: 'https://rfqautopilot.com', icon: 'automation' as IconName },
+  { label: 'AdminPalette', href: 'https://adminpalette.com', icon: 'building' as IconName },
+  { label: 'LeadOrbiq', href: 'https://leadorbiq.com', icon: 'ai' as IconName },
+];
+
+const legalLinks = [
+  { label: 'Privacy Policy', href: '/privacy' },
+  { label: 'Terms of Use', href: '/terms' },
+  { label: 'Disclaimer', href: '/disclaimer' },
+];
+
+const supportLinks = [
+  { label: site.supportEmail, href: `mailto:${site.supportEmail}`, icon: 'mail' as IconName },
+  { label: 'Author', href: '/walidhasan', icon: 'user' as IconName },
+  { label: 'About Inoviqa', href: site.companyUrl, icon: 'building' as IconName },
+];
+
+const isExternal = (href: string) => href.startsWith('http');
+---
+<footer class="rfq-global-footer">
+  <div class="rfq-global-footer-inner">
+    <section class="rfq-footer-landings" aria-labelledby="rfq-footer-workflows-title">
+      <div class="rfq-footer-landings-head">
+        <div>
+          <p>Explore RFQ AutoPilot</p>
+          <h2 id="rfq-footer-workflows-title">RFQ workflows built for every team</h2>
+        </div>
+        <span>Switch to any dedicated page</span>
+      </div>
+
+      <div class="rfq-footer-landing-grid">
+        {landingPages.map((page) => (
+          <a href={page.href} class="rfq-footer-landing-chip">
+            <span class="rfq-footer-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                {iconPaths[page.icon].map((path) => <path d={path} />)}
+              </svg>
+            </span>
+            <strong>{page.label}</strong>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="rfq-footer-main" aria-label="Footer navigation">
+      <div class="rfq-footer-brand">
+        <a class="rfq-footer-logo" href="/" aria-label="RFQ AutoPilot home">
+          <img src="/logo.png" width="38" height="38" alt="" />
+          <span>RFQ <strong>AutoPilot</strong></span>
+        </a>
+        <p>
+          The browser-based RFQ automation software that supports your RFQ workflow from incoming buyer request to branded quotation and response.
+        </p>
+      </div>
+
+      <nav class="rfq-footer-column rfq-footer-column-featured" aria-labelledby="rfq-footer-products">
+        <h2 id="rfq-footer-products">Our Products</h2>
+        <ul>
+          {productLinks.map((link) => (
+            <li>
+              <a href={link.href} target={isExternal(link.href) ? '_blank' : undefined} rel={isExternal(link.href) ? 'noopener noreferrer' : undefined}>
+                <span class="rfq-footer-link-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    {iconPaths[link.icon].map((path) => <path d={path} />)}
+                  </svg>
+                </span>
+                <span>{link.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <nav class="rfq-footer-column" aria-labelledby="rfq-footer-legal">
+        <h2 id="rfq-footer-legal">Legal</h2>
+        <ul>
+          {legalLinks.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <nav class="rfq-footer-column rfq-footer-column-featured" aria-labelledby="rfq-footer-support">
+        <h2 id="rfq-footer-support">Support</h2>
+        <ul>
+          {supportLinks.map((link) => (
+            <li>
+              <a href={link.href} target={isExternal(link.href) ? '_blank' : undefined} rel={isExternal(link.href) ? 'noopener noreferrer' : undefined}>
+                <span class="rfq-footer-link-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    {iconPaths[link.icon].map((path) => <path d={path} />)}
+                  </svg>
+                </span>
+                <span>{link.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </section>
+
+    <div class="rfq-footer-bottom">
+      <p>&copy; 2026 RFQ AutoPilot. A Product of <a href={site.companyUrl}>Inoviqa</a></p>
+      <p>
+        <span class="rfq-status">All Systems Operational</span>
+        <span class="rfq-setup">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            {iconPaths.bolt.map((path) => <path d={path} />)}
+          </svg>
+          60s Setup
+        </span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .rfq-global-footer {
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid rgba(37, 99, 235, 0.14);
+    background:
+      linear-gradient(135deg, rgba(14, 165, 233, 0.1), transparent 34%),
+      linear-gradient(180deg, #ffffff 0%, #f8fbff 54%, #eef6ff 100%);
+    color: #0f172a;
+    font-family: "Satoshi", system-ui, sans-serif;
+  }
+
+  .rfq-global-footer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(15, 23, 42, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent);
+  }
+
+  :global(html.dark) .rfq-global-footer,
+  :global(html[data-theme='dark']) .rfq-global-footer,
+  :global(body:has(.dark)) .rfq-global-footer {
+    border-top-color: rgba(96, 165, 250, 0.16);
+    background:
+      linear-gradient(135deg, rgba(37, 99, 235, 0.24), transparent 32%),
+      linear-gradient(180deg, #06101f 0%, #020617 100%);
+    color: #f8fafc;
+  }
+
+  :global(html.dark) .rfq-global-footer::before,
+  :global(html[data-theme='dark']) .rfq-global-footer::before,
+  :global(body:has(.dark)) .rfq-global-footer::before {
+    background-image:
+      linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+  }
+
+  .rfq-global-footer-inner {
+    position: relative;
+    width: min(calc(100% - 32px), 1280px);
+    margin: 0 auto;
+    padding: 42px 0 26px;
+  }
+
+  .rfq-footer-landings {
+    width: 100%;
+    padding: 18px;
+    border: 1px solid rgba(59, 130, 246, 0.16);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.78);
+    box-shadow: 0 18px 50px rgba(15, 23, 42, 0.07);
+    backdrop-filter: blur(18px);
+  }
+
+  :global(html.dark) .rfq-footer-landings,
+  :global(html[data-theme='dark']) .rfq-footer-landings,
+  :global(body:has(.dark)) .rfq-footer-landings {
+    border-color: rgba(96, 165, 250, 0.18);
+    background: rgba(15, 23, 42, 0.7);
+    box-shadow: 0 18px 55px rgba(0, 0, 0, 0.28);
+  }
+
+  .rfq-footer-landings-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: end;
+    margin-bottom: 14px;
+  }
+
+  .rfq-footer-landings-head p,
+  .rfq-footer-landings-head h2 {
+    margin: 0;
+  }
+
+  .rfq-footer-landings-head p {
+    color: #2563eb;
+    font-size: 11px;
+    font-weight: 850;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .rfq-footer-landings-head h2 {
+    margin-top: 4px;
+    font-size: clamp(1.05rem, 1.7vw, 1.35rem);
+    line-height: 1.2;
+  }
+
+  .rfq-footer-landings-head span {
+    color: #64748b;
+    font-size: 13px;
+  }
+
+  :global(html.dark) .rfq-footer-landings-head span,
+  :global(html[data-theme='dark']) .rfq-footer-landings-head span,
+  :global(body:has(.dark)) .rfq-footer-landings-head span {
+    color: #94a3b8;
+  }
+
+  .rfq-footer-landing-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .rfq-footer-landing-chip {
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 11px 7px 8px;
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.72);
+    color: #1e293b;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.1;
+    text-decoration: none;
+    transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+  }
+
+  .rfq-footer-landing-chip:hover {
+    transform: translateY(-2px);
+    border-color: rgba(37, 99, 235, 0.42);
+    background: #ffffff;
+    box-shadow: 0 10px 24px rgba(37, 99, 235, 0.13);
+  }
+
+  .rfq-footer-icon,
+  .rfq-footer-link-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 24px;
+    height: 24px;
+    border-radius: 7px;
+    color: #2563eb;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(14, 165, 233, 0.08));
+  }
+
+  .rfq-footer-icon svg,
+  .rfq-footer-link-icon svg,
+  .rfq-setup svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  :global(html.dark) .rfq-footer-landing-chip,
+  :global(html[data-theme='dark']) .rfq-footer-landing-chip,
+  :global(body:has(.dark)) .rfq-footer-landing-chip {
+    border-color: rgba(148, 163, 184, 0.16);
+    background: rgba(2, 6, 23, 0.48);
+    color: #e2e8f0;
+  }
+
+  :global(html.dark) .rfq-footer-landing-chip:hover,
+  :global(html[data-theme='dark']) .rfq-footer-landing-chip:hover,
+  :global(body:has(.dark)) .rfq-footer-landing-chip:hover {
+    border-color: rgba(96, 165, 250, 0.42);
+    background: rgba(15, 23, 42, 0.95);
+  }
+
+  .rfq-footer-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, .95fr) minmax(0, .7fr) minmax(0, .95fr);
+    gap: 18px;
+    padding: 24px 0 24px;
+  }
+
+  .rfq-footer-brand,
+  .rfq-footer-column {
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.58);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.045);
+  }
+
+  .rfq-footer-brand {
+    padding: 22px;
+  }
+
+  .rfq-footer-column {
+    padding: 19px;
+  }
+
+  .rfq-footer-column-featured {
+    background:
+      linear-gradient(135deg, rgba(37, 99, 235, 0.08), transparent 62%),
+      rgba(255, 255, 255, 0.66);
+  }
+
+  :global(html.dark) .rfq-footer-brand,
+  :global(html[data-theme='dark']) .rfq-footer-brand,
+  :global(body:has(.dark)) .rfq-footer-brand,
+  :global(html.dark) .rfq-footer-column,
+  :global(html[data-theme='dark']) .rfq-footer-column,
+  :global(body:has(.dark)) .rfq-footer-column {
+    border-color: rgba(148, 163, 184, 0.13);
+    background: rgba(15, 23, 42, 0.5);
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.18);
+  }
+
+  .rfq-footer-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: inherit;
+    font-size: 18px;
+    font-weight: 850;
+    text-decoration: none;
+  }
+
+  .rfq-footer-logo img {
+    border-radius: 8px;
+    object-fit: contain;
+    box-shadow: 0 10px 18px rgba(37, 99, 235, 0.14);
+  }
+
+  .rfq-footer-logo strong,
+  .rfq-footer-brand p a,
+  .rfq-footer-bottom a {
+    color: #0366f9;
+  }
+
+  .rfq-footer-brand p {
+    max-width: 420px;
+    margin: 16px 0 0;
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  :global(html.dark) .rfq-footer-brand p,
+  :global(html[data-theme='dark']) .rfq-footer-brand p,
+  :global(body:has(.dark)) .rfq-footer-brand p {
+    color: #94a3b8;
+  }
+
+  .rfq-footer-column h2 {
+    margin: 0 0 14px;
+    color: #0f172a;
+    font-size: 12px;
+    font-weight: 850;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  :global(html.dark) .rfq-footer-column h2,
+  :global(html[data-theme='dark']) .rfq-footer-column h2,
+  :global(body:has(.dark)) .rfq-footer-column h2 {
+    color: #e2e8f0;
+  }
+
+  .rfq-footer-column ul {
+    display: grid;
+    gap: 9px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .rfq-footer-column a {
+    min-height: 34px;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    color: #475569;
+    font-size: 14px;
+    font-weight: 650;
+    text-decoration: none;
+    transition: color 160ms ease, transform 160ms ease, background 160ms ease;
+  }
+
+  .rfq-footer-column-featured a {
+    padding: 5px 6px;
+    border-radius: 8px;
+  }
+
+  .rfq-footer-column a:hover {
+    color: #0366f9;
+    transform: translateX(2px);
+  }
+
+  .rfq-footer-column-featured a:hover {
+    background: rgba(37, 99, 235, 0.06);
+  }
+
+  :global(html.dark) .rfq-footer-column a,
+  :global(html[data-theme='dark']) .rfq-footer-column a,
+  :global(body:has(.dark)) .rfq-footer-column a {
+    color: #94a3b8;
+  }
+
+  :global(html.dark) .rfq-footer-column a:hover,
+  :global(html[data-theme='dark']) .rfq-footer-column a:hover,
+  :global(body:has(.dark)) .rfq-footer-column a:hover {
+    color: #60a5fa;
+  }
+
+  .rfq-footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(37, 99, 235, 0.14);
+    color: #64748b;
+    font-size: 13px;
+  }
+
+  .rfq-footer-bottom p {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 0;
+  }
+
+  .rfq-footer-bottom a {
+    font-weight: 750;
+    text-decoration: none;
+  }
+
+  .rfq-status {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #059669;
+    font-weight: 850;
+  }
+
+  .rfq-status::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #10b981;
+    box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.13);
+  }
+
+  .rfq-setup {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 800;
+  }
+
+  .rfq-setup svg {
+    color: #f59e0b;
+  }
+
+  :global(html.dark) .rfq-footer-bottom,
+  :global(html[data-theme='dark']) .rfq-footer-bottom,
+  :global(body:has(.dark)) .rfq-footer-bottom {
+    border-top-color: rgba(96, 165, 250, 0.16);
+    color: #94a3b8;
+  }
+
+  @media (max-width: 1080px) {
+    .rfq-footer-main {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 680px) {
+    .rfq-global-footer-inner {
+      width: min(calc(100% - 28px), 1280px);
+      padding-top: 34px;
+    }
+
+    .rfq-footer-landings {
+      padding: 15px;
+    }
+
+    .rfq-footer-landings-head,
+    .rfq-footer-bottom {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .rfq-footer-landing-chip {
+      flex: 1 1 calc(50% - 8px);
+      min-width: 0;
+    }
+
+    .rfq-footer-main {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .rfq-footer-landing-chip {
+      flex-basis: 100%;
+    }
+  }
+</style>

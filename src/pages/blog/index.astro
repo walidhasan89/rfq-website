@@ -1,0 +1,64 @@
+---
+import OriginalLayout from '@/layouts/OriginalLayout.astro';
+import '@/styles/global.css';
+import BlogListingPage from '@/components/BlogListingPage.astro';
+import BlogNavbarIsland from '@/react/BlogNavbarIsland';
+import { getCollection } from 'astro:content';
+import { site } from '@/data/site';
+import { getBlogPagePosts, getBlogTotalPages, sortBlogPosts } from '@/lib/blogPagination';
+
+const posts = sortBlogPosts(await getCollection('blog'));
+const currentPage = 1;
+const totalPages = getBlogTotalPages(posts.length);
+const pagePosts = getBlogPagePosts(posts, currentPage);
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: 'RFQ AutoPilot Blog',
+  description: 'Practical RFQ response, quotation, and B2B sales workflow guides for suppliers and manufacturers.',
+  url: `${site.url}/blog`,
+  publisher: { '@type': 'Organization', name: site.legalName, url: site.companyUrl },
+};
+---
+<OriginalLayout
+  title="RFQ Response and Quotation Guides | RFQ AutoPilot Blog"
+  description="Practical guides for supplier RFQ response workflows, professional quotations, PDF quote design, and buyer communication."
+  canonical="/blog"
+  jsonLd={schema}
+>
+  <div class="rfq-blog-page">
+    <BlogNavbarIsland client:load currentPath="/blog" />
+
+    <main id="main-content">
+      <section class="inner-hero blog-hero">
+        <div class="hero-grid" aria-hidden="true"></div>
+        <div class="container blog-hero-content" data-reveal>
+          <span class="eyebrow">RFQ AutoPilot Blog</span>
+          <h1>Practical guides for faster, clearer RFQ responses</h1>
+          <p>Supplier-side articles about reviewing buyer requests, preparing quotations, building branded PDFs, and improving the response workflow.</p>
+        </div>
+      </section>
+
+      <BlogListingPage pagePosts={pagePosts} allPosts={posts} currentPage={currentPage} totalPages={totalPages} />
+    </main>
+
+  </div>
+</OriginalLayout>
+
+<style is:global>
+  .rfq-blog-page,
+  .rfq-blog-page * {
+    font-family: "Satoshi", system-ui, sans-serif !important;
+  }
+
+  .rfq-blog-page h1,
+  .rfq-blog-page h1 * {
+    font-weight: 700 !important;
+  }
+
+  .rfq-blog-page h2,
+  .rfq-blog-page h2 * {
+    font-weight: 600 !important;
+  }
+</style>

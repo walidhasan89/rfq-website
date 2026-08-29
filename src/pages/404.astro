@@ -1,0 +1,17 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Icon from '@/components/Icon.astro';
+---
+<BaseLayout title="Page Not Found | RFQ AutoPilot" description="The requested RFQ AutoPilot page could not be found." canonical="/404" noindex>
+  <section class="status-page not-found-page">
+    <div class="status-card" data-reveal>
+      <span class="error-code">404</span>
+      <h1>That page does not exist</h1>
+      <p>The link may be outdated or the page may have moved. Use the homepage or blog to continue.</p>
+      <div class="status-actions">
+        <a class="button button-primary button-large" href="/"><Icon name="home" size={18} /> Go to homepage</a>
+        <a class="button button-secondary button-large" href="/blog">Read the blog</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

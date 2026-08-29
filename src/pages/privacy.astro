@@ -1,0 +1,73 @@
+---
+import LegalLayout from '@/layouts/LegalLayout.astro';
+import { site } from '@/data/site';
+---
+<LegalLayout
+  title="Privacy Policy"
+  description="How RFQ AutoPilot and its website handle account, extension, RFQ, support, payment, and analytics information."
+  canonical="/privacy"
+  contactEmail={site.privacyEmail}
+>
+  <h2>1. Scope</h2>
+  <p>This Privacy Policy applies to the RFQ AutoPilot Chrome extension, the website at rfqautopilot.com, related account pages, and support communications operated by Inoviqa LLC.</p>
+  <p>The website and extension do not necessarily collect the same information. The website mainly presents product information. The extension may process information required to provide RFQ extraction, quotation preparation, account, subscription, and support features.</p>
+
+  <h2>2. Information you provide</h2>
+  <p>Depending on the features you use, you may provide:</p>
+  <ul>
+    <li>Name, email address, company name, and account information.</li>
+    <li>Company branding, contact details, quotation terms, and templates.</li>
+    <li>RFQ content, buyer details, line items, attachments, and related commercial information that you choose to process.</li>
+    <li>Support messages, feedback, and diagnostic information you send to us.</li>
+  </ul>
+
+  <h2>3. Information collected automatically</h2>
+  <p>The service may receive limited technical information needed for security and operation, such as browser type, extension version, device or session identifiers, error logs, request timestamps, and basic usage events.</p>
+  <p>Website analytics are disabled in this project by default. If analytics are enabled, this policy should be updated with the active provider, cookie behavior, retention period, and consent process before deployment.</p>
+
+  <h2>4. How RFQ content is processed</h2>
+  <p>RFQ AutoPilot is designed to process content only when you use a feature that requires it. RFQ information may be sent to service infrastructure or an AI processing provider when needed to perform extraction, interpretation, or document preparation.</p>
+  <p>You should not process information that you are not authorized to use. You are responsible for confirming that buyer, employee, supplier, and customer data can lawfully be processed through the service.</p>
+
+  <h2>5. Why information is used</h2>
+  <ul>
+    <li>Provide and maintain extension features.</li>
+    <li>Authenticate accounts and manage plan limits.</li>
+    <li>Process RFQ information requested by the user.</li>
+    <li>Generate quotations, PDFs, templates, and response content.</li>
+    <li>Process payments and subscription status through a payment provider.</li>
+    <li>Prevent abuse, investigate errors, and improve reliability.</li>
+    <li>Reply to support, privacy, and legal requests.</li>
+  </ul>
+
+  <h2>6. Service providers</h2>
+  <p>We may use service providers for hosting, authentication, payments, email delivery, error monitoring, and AI processing. These providers receive only the information reasonably necessary to perform their function under their own terms and privacy obligations.</p>
+  <p>The current list of material processors should be published or made available before launch and updated when the product architecture changes.</p>
+
+  <h2>7. Payment information</h2>
+  <p>Payment card details should be collected and processed by the payment provider, not stored directly by RFQ AutoPilot. We may receive billing contact details, subscription identifiers, payment status, plan, and transaction references needed to manage your account.</p>
+
+  <h2>8. Data retention</h2>
+  <p>Information should be retained only for as long as reasonably necessary to provide the service, meet legal obligations, resolve disputes, maintain security, and enforce agreements. Different categories may have different retention periods.</p>
+  <p>You may request account deletion, subject to information that must be retained for legal, tax, fraud-prevention, or dispute purposes.</p>
+
+  <h2>9. Security</h2>
+  <p>We use reasonable administrative, technical, and organizational safeguards appropriate to the service. No internet service or storage system can guarantee absolute security.</p>
+  <p>This policy does not claim end-to-end encryption, independent audits, or specific security certifications unless those controls have been implemented and verified.</p>
+
+  <h2>10. International processing</h2>
+  <p>Your information may be processed in countries other than your own when service providers operate internationally. Appropriate contractual or legal safeguards should be used where required.</p>
+
+  <h2>11. Your choices and rights</h2>
+  <p>Depending on applicable law, you may request access, correction, deletion, restriction, objection, portability, or withdrawal of consent. Identity verification may be required before a request is completed.</p>
+  <p>Send privacy requests to <a href={`mailto:${site.privacyEmail}`}>{site.privacyEmail}</a>.</p>
+
+  <h2>12. Children</h2>
+  <p>RFQ AutoPilot is a business tool and is not intended for children. We do not knowingly offer the service to individuals who cannot legally agree to the applicable terms.</p>
+
+  <h2>13. Changes</h2>
+  <p>We may update this policy as the product, processors, or legal requirements change. The updated date at the top of this page will be revised when material changes are published.</p>
+
+  <h2>14. Contact</h2>
+  <p>RFQ AutoPilot is operated by <a href={site.companyUrl} target="_blank" rel="noopener noreferrer">Inoviqa LLC</a>. Privacy questions can be sent to <a href={`mailto:${site.privacyEmail}`}>{site.privacyEmail}</a>.</p>
+</LegalLayout>

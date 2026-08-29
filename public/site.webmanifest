@@ -1,0 +1,12 @@
+{
+  "name": "RFQ AutoPilot",
+  "short_name": "RFQ AutoPilot",
+  "description": "RFQ-to-quote workflow automation for suppliers, distributors, manufacturers, and B2B sales teams.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#0366f9",
+  "icons": [
+    { "src": "/logo.png", "sizes": "500x500", "type": "image/png" }
+  ]
+}

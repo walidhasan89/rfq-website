@@ -1,0 +1,71 @@
+---
+import Icon from '@/components/Icon.astro';
+---
+<div class="product-stage" aria-label="RFQ AutoPilot interface preview">
+  <div class="product-window">
+    <div class="window-bar">
+      <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="window-title"><img src="/logo.png" width="22" height="22" alt="" /> RFQ AutoPilot</div>
+      <div class="window-status">Draft</div>
+    </div>
+
+    <div class="product-layout">
+      <aside class="product-sidebar" aria-hidden="true">
+        <div class="sidebar-mark active"><Icon name="mail" size={17} /></div>
+        <div class="sidebar-mark"><Icon name="file-text" size={17} /></div>
+        <div class="sidebar-mark"><Icon name="quote" size={17} /></div>
+        <div class="sidebar-mark"><Icon name="settings" size={17} /></div>
+      </aside>
+
+      <div class="product-content">
+        <div class="product-topline">
+          <div>
+            <span class="product-kicker">Incoming RFQ</span>
+            <h3>Industrial Pump Parts</h3>
+          </div>
+          <span class="confidence"><Icon name="sparkles" size={14} /> Ready to review</span>
+        </div>
+
+        <div class="rfq-meta-grid">
+          <div><span>Buyer</span><strong>Atlas Engineering</strong></div>
+          <div><span>RFQ reference</span><strong>AE-260712-18</strong></div>
+          <div><span>Requested date</span><strong>July 19, 2026</strong></div>
+        </div>
+
+        <div class="line-items">
+          <div class="line-items-head"><span>Item</span><span>Qty</span><span>Unit price</span><span>Total</span></div>
+          <div class="line-item"><span><b>PX-440</b><small>Seal kit, high temperature</small></span><span>24</span><span>$48.00</span><span>$1,152.00</span></div>
+          <div class="line-item"><span><b>BR-190</b><small>Bearing assembly</small></span><span>12</span><span>$126.00</span><span>$1,512.00</span></div>
+          <div class="line-item"><span><b>VL-275</b><small>Stainless valve set</small></span><span>8</span><span>$214.00</span><span>$1,712.00</span></div>
+        </div>
+
+        <div class="quote-summary">
+          <div>
+            <span>Lead time</span>
+            <strong>12 to 15 business days</strong>
+          </div>
+          <div>
+            <span>Quotation total</span>
+            <strong>$4,376.00</strong>
+          </div>
+        </div>
+
+        <div class="product-actions">
+          <button type="button"><Icon name="edit" size={16} /> Review quote</button>
+          <button class="primary" type="button"><Icon name="download" size={16} /> Generate PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="floating-card floating-card-email">
+    <span class="floating-icon"><Icon name="mail" size={17} /></span>
+    <div><strong>RFQ captured</strong><small>Email and attachment details</small></div>
+    <Icon name="check" size={16} />
+  </div>
+  <div class="floating-card floating-card-pdf">
+    <span class="floating-icon"><Icon name="file-text" size={17} /></span>
+    <div><strong>Branded PDF</strong><small>Ready for buyer review</small></div>
+    <span class="mini-badge">PDF</span>
+  </div>
+</div>

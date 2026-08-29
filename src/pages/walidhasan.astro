@@ -1,0 +1,273 @@
+---
+import OriginalLayout from '@/layouts/OriginalLayout.astro';
+import Icon from '@/components/Icon.astro';
+import AuthorNavbarIsland from '@/react/AuthorNavbarIsland';
+import { site } from '@/data/site';
+
+const authorImage = 'https://walidhasan.com/assets/walidhasan-logo.png';
+
+const products = [
+  {
+    name: 'RFQ AutoPilot',
+    description: 'RFQ-to-quote workflow automation for suppliers, distributors, manufacturers, and B2B sales teams.',
+    href: 'https://rfqautopilot.com',
+    label: 'RFQ Automation',
+  },
+  {
+    name: 'LeadOrbiq',
+    description: 'Google Maps lead collection and prospecting workflow extension for business outreach.',
+    href: 'https://leadorbiq.com',
+    label: 'Lead Generation',
+  },
+  {
+    name: 'Audit Pilot',
+    description: 'Website audit report generation for growth analysis and personalized outreach.',
+    href: 'https://siteauditpilot.com',
+    label: 'Website Audits',
+  },
+  {
+    name: 'ReplyChief',
+    description: 'AI-assisted professional reply and communication workflow tool.',
+    href: 'https://replychief.com',
+    label: 'Communication',
+  },
+  {
+    name: 'Admin Palette',
+    description: 'Productivity and customization tools for the Shopify admin experience.',
+    href: 'https://adminpalette.com',
+    label: 'Shopify Tool',
+  },
+  {
+    name: 'SEO Report Builder',
+    description: 'A fast website SEO report generator created for practical analysis and client outreach.',
+    href: 'https://inoviqa.com/seo-report-generator/',
+    label: 'SEO Reporting',
+  },
+];
+
+const focusAreas = [
+  {
+    icon: 'globe',
+    title: 'Web Design and Development',
+    description: 'Fast, conversion-focused websites, landing pages, and digital experiences built around business goals.',
+  },
+  {
+    icon: 'layers',
+    title: 'Analytics and CRO',
+    description: 'Tracking, user experience, lead generation, and conversion improvements based on practical data.',
+  },
+  {
+    icon: 'settings',
+    title: 'Automation Products',
+    description: 'Focused browser tools that remove repetitive steps from everyday business workflows.',
+  },
+  {
+    icon: 'building',
+    title: 'Inoviqa LLC',
+    description: 'Digital growth, SEO, CRO, analytics, ads, and website optimization services for businesses worldwide.',
+  },
+] as const;
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Walid Hasan',
+  image: authorImage,
+  url: site.founderUrl,
+  jobTitle: 'Digital Growth Consultant and Founder of Inoviqa LLC',
+  worksFor: {
+    '@type': 'Organization',
+    name: site.legalName,
+    url: site.companyUrl,
+  },
+  sameAs: [
+    site.social.linkedin,
+    site.social.facebook,
+    site.social.instagram,
+    site.social.behance,
+    site.social.dribbble,
+  ],
+};
+---
+<OriginalLayout
+  title="Walid Hasan | Founder of Inoviqa LLC and RFQ AutoPilot"
+  description="Meet Walid Hasan, founder of Inoviqa LLC and creator of RFQ AutoPilot, LeadOrbiq, Audit Pilot, ReplyChief, Admin Palette, and other business automation tools."
+  canonical="/walidhasan"
+  image={authorImage}
+  jsonLd={personSchema}
+>
+  <div class="rfq-author-shell">
+    <AuthorNavbarIsland client:load currentPath="/walidhasan" />
+
+    <main id="main-content" class="rfq-author-main">
+      <section class="rfq-author-hero">
+        <div class="rfq-author-grid-pattern" aria-hidden="true"></div>
+        <div class="rfq-author-glow rfq-author-glow-one" aria-hidden="true"></div>
+        <div class="rfq-author-glow rfq-author-glow-two" aria-hidden="true"></div>
+
+        <div class="rfq-author-container rfq-author-hero-grid">
+          <div class="rfq-author-portrait-column" data-reveal>
+            <div class="rfq-author-portrait-card">
+              <div class="rfq-author-portrait-ring">
+                <img
+                  src={authorImage}
+                  width="520"
+                  height="520"
+                  alt="Walid Hasan, founder of Inoviqa LLC and creator of RFQ AutoPilot"
+                  loading="eager"
+                  decoding="async"
+                />
+              </div>
+
+              <div class="rfq-author-status-card">
+                <span class="rfq-author-status-dot" aria-hidden="true"></span>
+                <div>
+                  <strong>Founder of Inoviqa LLC</strong>
+                  <span>Building growth systems and business tools</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="rfq-author-copy" data-reveal>
+            <div class="rfq-author-eyebrow">
+              <Icon name="sparkles" size={16} />
+              Founder, consultant, and product builder
+            </div>
+
+            <h1>Walid Hasan</h1>
+            <p class="rfq-author-title">Digital Growth Consultant, Founder of Inoviqa LLC, and Chrome Extension Creator</p>
+            <p class="rfq-author-intro">
+              Walid builds conversion-focused websites, analytics systems, automation tools, and Chrome extensions that solve practical business workflow problems. RFQ AutoPilot was created to reduce repetitive quotation work while keeping the final review in the hands of the sales team.
+            </p>
+
+            <div class="rfq-author-actions">
+              <a class="rfq-author-button rfq-author-button-primary" href={site.founderUrl} target="_blank" rel="noopener noreferrer">
+                Visit walidhasan.com
+                <Icon name="external" size={17} />
+              </a>
+              <a class="rfq-author-button rfq-author-button-secondary" href={site.social.linkedin} target="_blank" rel="noopener noreferrer">
+                <Icon name="linkedin" size={17} />
+                Connect on LinkedIn
+              </a>
+            </div>
+
+            <div class="rfq-author-trust-row" aria-label="Professional focus">
+              <span><Icon name="check" size={15} /> Business-first strategy</span>
+              <span><Icon name="check" size={15} /> Conversion-focused execution</span>
+              <span><Icon name="check" size={15} /> Practical automation</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="rfq-author-section rfq-author-focus-section">
+        <div class="rfq-author-container">
+          <div class="rfq-author-section-heading" data-reveal>
+            <div>
+              <span class="rfq-author-section-label">Work focus</span>
+              <h2>Business growth systems shaped around real operating problems.</h2>
+            </div>
+            <p>Walid connects strategy, UX, analytics, SEO, conversion optimization, and automation into practical systems that help teams move faster with less manual effort.</p>
+          </div>
+
+          <div class="rfq-author-focus-grid">
+            {focusAreas.map((item, index) => (
+              <article class="rfq-author-focus-card" data-reveal style={`--author-delay:${index * 70}ms`}>
+                <div class="rfq-author-card-icon"><Icon name={item.icon} size={22} /></div>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="rfq-author-section rfq-author-story-section">
+        <div class="rfq-author-container rfq-author-story-grid">
+          <div class="rfq-author-story-copy" data-reveal>
+            <span class="rfq-author-section-label">The approach</span>
+            <h2>Technology should make the business workflow easier to run.</h2>
+            <p>Walid works at the intersection of strategy, design, development, analytics, SEO, conversion optimization, and automation. The goal is not to add more technology. The goal is to create a faster, clearer, and more profitable business system.</p>
+            <p>That same principle guides RFQ AutoPilot: reduce repetitive RFQ processing, improve quotation consistency, and help B2B teams respond professionally without losing human control.</p>
+          </div>
+
+          <div class="rfq-author-principles" data-reveal>
+            <div>
+              <span>01</span>
+              <strong>Map the real workflow</strong>
+              <p>Understand how work moves today, where time is lost, and what the user needs to decide next.</p>
+            </div>
+            <div>
+              <span>02</span>
+              <strong>Design for daily use</strong>
+              <p>Build clear interfaces and small automations that make repeated work faster without adding complexity.</p>
+            </div>
+            <div>
+              <span>03</span>
+              <strong>Measure the outcome</strong>
+              <p>Prioritize speed, leads, conversion clarity, fewer manual steps, and better handoff quality.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="rfq-author-section rfq-author-products-section">
+        <div class="rfq-author-container">
+          <div class="rfq-author-section-heading rfq-author-section-heading-centered" data-reveal>
+            <div>
+              <span class="rfq-author-section-label">Products</span>
+              <h2>Chrome extensions and business tools</h2>
+            </div>
+            <p>Focused products created to simplify repetitive workflows, improve business operations, and help teams work more efficiently.</p>
+          </div>
+
+          <div class="rfq-author-products-grid">
+            {products.map((product, index) => (
+              <a
+                class="rfq-author-product-card"
+                href={product.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-reveal
+                style={`--author-delay:${index * 65}ms`}
+              >
+                <div class="rfq-author-product-top">
+                  <span class="rfq-author-product-icon"><Icon name="chrome" size={21} /></span>
+                  <span class="rfq-author-product-label">{product.label}</span>
+                </div>
+                <h3>{product.name}</h3>
+                <p>{product.description}</p>
+                <span class="rfq-author-product-link">Visit product <Icon name="external" size={15} /></span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="rfq-author-section rfq-author-cta-section">
+        <div class="rfq-author-container">
+          <div class="rfq-author-cta" data-reveal>
+            <div class="rfq-author-cta-glow" aria-hidden="true"></div>
+            <div>
+              <span class="rfq-author-section-label">Learn more</span>
+              <h2>Explore Walid Hasan and Inoviqa LLC</h2>
+              <p>Discover more about website growth, automation products, conversion strategy, and the work behind RFQ AutoPilot.</p>
+            </div>
+            <div class="rfq-author-cta-actions">
+              <a class="rfq-author-button rfq-author-button-light" href={site.founderUrl} target="_blank" rel="noopener noreferrer">
+                Walid Hasan
+                <Icon name="external" size={17} />
+              </a>
+              <a class="rfq-author-button rfq-author-button-ghost" href={site.companyUrl} target="_blank" rel="noopener noreferrer">
+                Inoviqa LLC
+                <Icon name="external" size={17} />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+  </div>
+</OriginalLayout>

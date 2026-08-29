@@ -1,0 +1,1257 @@
+---
+import OriginalLayout from '@/layouts/OriginalLayout.astro';
+import Icon from '@/components/Icon.astro';
+import BlogNavbarIsland from '@/react/BlogNavbarIsland';
+import { getCollection, render } from 'astro:content';
+import { site } from '@/data/site';
+import { getBlogLandingLinks } from '@/data/landingSeo';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+
+const posts = (await getCollection('blog'))
+  .filter((item) => item.id !== post.id)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const relatedPosts = [
+  ...posts.filter((item) => item.data.category === post.data.category),
+  ...posts.filter((item) => item.data.category !== post.data.category),
+].slice(0, 3);
+
+const tocHeadings = headings.filter((heading) => heading.depth === 2);
+const articleLandingLinks = getBlogLandingLinks(post);
+
+const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+});
+
+const baseUrl = site.url.replace(/\/$/, '');
+const articleUrl = `${baseUrl}/blog/${post.id}`;
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': ['Article', 'BlogPosting'],
+  '@id': `${articleUrl}#article`,
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.pubDate.toISOString(),
+  dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
+  image: `${baseUrl}/og-rfq-autopilot.png`,
+  articleSection: post.data.category,
+  inLanguage: 'en-US',
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': articleUrl,
+  },
+  author: {
+    '@type': 'Person',
+    name: post.data.author,
+    url: `${baseUrl}/walidhasan`,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: site.legalName,
+    url: site.companyUrl,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${baseUrl}/logo.png`,
+    },
+  },
+  isPartOf: {
+    '@type': 'Blog',
+    name: 'RFQ AutoPilot Blog',
+    url: `${baseUrl}/blog`,
+  },
+  mentions: articleLandingLinks.map((link) => ({
+    '@type': 'WebPage',
+    name: link.name,
+    url: link.url,
+  })),
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: `${baseUrl}/blog` },
+    { '@type': 'ListItem', position: 3, name: post.data.title, item: articleUrl },
+  ],
+};
+---
+
+<OriginalLayout
+  title={`${post.data.title} | RFQ AutoPilot`}
+  description={post.data.description}
+  canonical={`/blog/${post.id}`}
+  jsonLd={[articleSchema, breadcrumbSchema]}
+>
+  <div class="rfq-premium-article">
+    <BlogNavbarIsland client:load currentPath="/blog" />
+
+    <main id="main-content">
+      <header class="rfq-article-hero">
+        <div class="rfq-article-grid" aria-hidden="true"></div>
+        <div class="rfq-article-glow rfq-article-glow-one" aria-hidden="true"></div>
+        <div class="rfq-article-glow rfq-article-glow-two" aria-hidden="true"></div>
+
+        <div class="rfq-article-container rfq-article-hero-layout">
+          <div class="rfq-article-hero-copy">
+            <nav class="rfq-article-breadcrumb" aria-label="Breadcrumb">
+              <a href="/">Home</a>
+              <span>/</span>
+              <a href="/blog">Blog</a>
+              <span>/</span>
+              <span>{post.data.category}</span>
+            </nav>
+
+            <div class="rfq-article-eyebrow">
+              <Icon name="file-text" size={15} />
+              {post.data.category}
+            </div>
+
+            <h1>{post.data.title}</h1>
+            <p class="rfq-article-description">{post.data.description}</p>
+
+            <div class="rfq-article-author-row">
+              <img
+                src="https://walidhasan.com/assets/walidhasan-logo.png"
+                width="48"
+                height="48"
+                alt="Walid Hasan"
+              />
+              <div>
+                <strong>{post.data.author}</strong>
+                <span>{formattedDate} - {post.data.readingTime}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="rfq-article-workflow-card" aria-label="RFQ AutoPilot workflow">
+            <div class="rfq-workflow-card-head">
+              <img src="/logo.png" width="38" height="38" alt="" />
+              <div>
+                <strong>RFQ AutoPilot</strong>
+                <span>RFQ-to-Quote Workflow</span>
+              </div>
+            </div>
+
+            <div class="rfq-workflow-step">
+              <span class="rfq-workflow-number">01</span>
+              <div>
+                <strong>Incoming RFQ</strong>
+                <span>Email, PDF or web page</span>
+              </div>
+              <Icon name="mail" size={18} />
+            </div>
+
+            <div class="rfq-workflow-line"></div>
+
+            <div class="rfq-workflow-step">
+              <span class="rfq-workflow-number">02</span>
+              <div>
+                <strong>Details extracted</strong>
+                <span>Products, quantities and terms</span>
+              </div>
+              <Icon name="sparkles" size={18} />
+            </div>
+
+            <div class="rfq-workflow-line"></div>
+
+            <div class="rfq-workflow-step rfq-workflow-step-final">
+              <span class="rfq-workflow-number">03</span>
+              <div>
+                <strong>Branded quote ready</strong>
+                <span>Review, export and reply</span>
+              </div>
+              <Icon name="file-text" size={18} />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="rfq-article-content-section">
+        <div class="rfq-article-container rfq-article-content-layout">
+          <article class="rfq-article-card">
+            <div class="rfq-article-card-top">
+              <span><Icon name="file-text" size={15} /> Practical guide</span>
+              <a href="/blog">Back to all articles</a>
+            </div>
+
+            <div class="rfq-article-prose">
+              <Content />
+            </div>
+
+            {articleLandingLinks.length > 0 && (
+              <aside class="rfq-article-tools" aria-label="Related RFQ AutoPilot workflows">
+                <div class="rfq-article-tools-head">
+                  <span><Icon name="layers" size={16} /> Related RFQ workflows</span>
+                  <p>Explore the product pages connected to this guide.</p>
+                </div>
+                <div class="rfq-article-tool-grid">
+                  {articleLandingLinks.map((link) => (
+                    <a href={link.href}>
+                      <small>{link.category}</small>
+                      <strong>{link.name}</strong>
+                      <span>View workflow <Icon name="arrow-right" size={14} /></span>
+                    </a>
+                  ))}
+                </div>
+              </aside>
+            )}
+
+            <div class="rfq-article-author-card">
+              <img
+                src="https://walidhasan.com/assets/walidhasan-logo.png"
+                width="62"
+                height="62"
+                loading="lazy"
+                alt="Walid Hasan"
+              />
+              <div>
+                <span>Written by</span>
+                <h2>{post.data.author}</h2>
+                <p>Founder of RFQ AutoPilot and Inoviqa, focused on practical B2B workflow automation and conversion-driven software.</p>
+              </div>
+            </div>
+          </article>
+
+          <aside class="rfq-article-sidebar">
+            {tocHeadings.length > 0 && (
+              <div class="rfq-sidebar-card rfq-toc-card">
+                <span class="rfq-sidebar-label">On this page</span>
+                <nav aria-label="Table of contents">
+                  {tocHeadings.map((heading, index) => (
+                    <a href={`#${heading.slug}`}>
+                      <span>{String(index + 1).padStart(2, '0')}</span>
+                      {heading.text}
+                    </a>
+                  ))}
+                </nav>
+              </div>
+            )}
+
+            <div class="rfq-sidebar-card rfq-product-card">
+              <div class="rfq-product-logo">
+                <img src="/logo.png" width="44" height="44" alt="RFQ AutoPilot logo" />
+              </div>
+              <span class="rfq-sidebar-label">RFQ AutoPilot</span>
+              <h2>Turn incoming RFQs into professional quotes.</h2>
+              <p>Extract requirements, build the quote, apply branding and export a polished PDF.</p>
+              <a href={site.chromeStoreUrl} target="_blank" rel="noopener noreferrer">
+                <Icon name="chrome" size={17} />
+                Add to Chrome
+                <Icon name="arrow-right" size={15} />
+              </a>
+            </div>
+
+            {articleLandingLinks.length > 0 && (
+              <div class="rfq-sidebar-card rfq-sidebar-links-card">
+                <span class="rfq-sidebar-label">Related workflows</span>
+                <nav aria-label="Related RFQ AutoPilot workflows">
+                  {articleLandingLinks.slice(0, 3).map((link) => (
+                    <a href={link.href}>
+                      <strong>{link.name}</strong>
+                      <span>{link.category}</span>
+                    </a>
+                  ))}
+                </nav>
+              </div>
+            )}
+          </aside>
+        </div>
+      </section>
+
+      {relatedPosts.length > 0 && (
+        <section class="rfq-related-section">
+          <div class="rfq-article-container">
+            <div class="rfq-related-heading">
+              <div>
+                <span>Continue learning</span>
+                <h2>Related RFQ guides</h2>
+              </div>
+              <a href="/blog">View all articles <Icon name="arrow-right" size={15} /></a>
+            </div>
+
+            <div class="rfq-related-grid">
+              {relatedPosts.map((item, index) => (
+                <article class="rfq-related-card">
+                  <div class="rfq-related-number">{String(index + 1).padStart(2, '0')}</div>
+                  <span>{item.data.category}</span>
+                  <h3><a href={`/blog/${item.id}`}>{item.data.title}</a></h3>
+                  <p>{item.data.description}</p>
+                  <a class="rfq-related-link" href={`/blog/${item.id}`}>
+                    Read article <Icon name="arrow-right" size={15} />
+                  </a>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+    </main>
+
+  </div>
+</OriginalLayout>
+
+<style is:global>
+  .rfq-premium-article,
+  .rfq-premium-article * {
+    font-family: "Satoshi", Arial, sans-serif;
+    letter-spacing: 0;
+    box-sizing: border-box;
+  }
+
+  .rfq-premium-article {
+    --article-blue: #0366f9;
+    --article-blue-dark: #0052d9;
+    --article-ink: #0f172a;
+    --article-muted: #64748b;
+    --article-line: #e2e8f0;
+    --article-surface: #ffffff;
+    --article-soft: #f8fafc;
+    min-height: 100vh;
+    color: var(--article-ink);
+    background: #ffffff;
+  }
+
+  .dark .rfq-premium-article {
+    --article-ink: #f8fafc;
+    --article-muted: #94a3b8;
+    --article-line: rgba(148, 163, 184, 0.2);
+    --article-surface: #0f172a;
+    --article-soft: #020617;
+    background: #020617;
+  }
+
+  .rfq-article-container {
+    width: min(calc(100% - 40px), 1180px);
+    margin-inline: auto;
+  }
+
+  .rfq-article-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 148px 0 78px;
+    background:
+      linear-gradient(180deg, rgba(239,246,255,.95), rgba(255,255,255,1));
+  }
+
+  .dark .rfq-article-hero {
+    background: linear-gradient(180deg, #071426 0%, #020617 100%);
+  }
+
+  .rfq-article-grid {
+    position: absolute;
+    inset: 0;
+    opacity: .42;
+    background-image:
+      linear-gradient(rgba(3,102,249,.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(3,102,249,.08) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: linear-gradient(to bottom, black, transparent 88%);
+    pointer-events: none;
+  }
+
+  .rfq-article-glow {
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(90px);
+    pointer-events: none;
+  }
+
+  .rfq-article-glow-one {
+    width: 380px;
+    height: 380px;
+    top: -130px;
+    right: 7%;
+    background: rgba(74,209,252,.22);
+  }
+
+  .rfq-article-glow-two {
+    width: 300px;
+    height: 300px;
+    bottom: -140px;
+    left: 2%;
+    background: rgba(3,102,249,.15);
+  }
+
+  .rfq-article-hero-layout {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(320px, .75fr);
+    gap: 72px;
+    align-items: center;
+  }
+
+  .rfq-article-breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 24px;
+    font-size: 13px;
+    color: var(--article-muted);
+  }
+
+  .rfq-article-breadcrumb a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .rfq-article-breadcrumb a:hover {
+    color: var(--article-blue);
+  }
+
+  .rfq-article-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 13px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(3,102,249,.18);
+    border-radius: 999px;
+    background: rgba(255,255,255,.72);
+    color: var(--article-blue);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .dark .rfq-article-eyebrow {
+    background: rgba(15,23,42,.72);
+  }
+
+  .rfq-article-hero h1 {
+    max-width: 850px;
+    margin: 0;
+    font-size: clamp(32px, 4vw, 46px);
+    line-height: 1.08;
+    font-weight: 750;
+    color: var(--article-ink);
+  }
+
+  .rfq-article-description {
+    max-width: 760px;
+    margin: 22px 0 28px;
+    color: var(--article-muted);
+    font-size: 18px;
+    line-height: 1.72;
+  }
+
+  .rfq-article-author-row {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+  }
+
+  .rfq-article-author-row img {
+    width: 48px;
+    height: 48px;
+    border-radius: 15px;
+    object-fit: cover;
+    border: 2px solid rgba(3,102,249,.16);
+  }
+
+  .rfq-article-author-row div {
+    display: grid;
+    gap: 3px;
+  }
+
+  .rfq-article-author-row strong {
+    font-size: 14px;
+  }
+
+  .rfq-article-author-row span {
+    color: var(--article-muted);
+    font-size: 13px;
+  }
+
+  .rfq-article-workflow-card {
+    position: relative;
+    padding: 22px;
+    border: 1px solid rgba(3,102,249,.16);
+    border-radius: 26px;
+    background: rgba(255,255,255,.76);
+    box-shadow: 0 28px 70px rgba(15,23,42,.12);
+    backdrop-filter: blur(18px);
+  }
+
+  .dark .rfq-article-workflow-card {
+    background: rgba(15,23,42,.78);
+    box-shadow: 0 28px 70px rgba(0,0,0,.28);
+  }
+
+  .rfq-workflow-card-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 18px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--article-line);
+  }
+
+  .rfq-workflow-card-head img {
+    border-radius: 12px;
+  }
+
+  .rfq-workflow-card-head div {
+    display: grid;
+    gap: 2px;
+  }
+
+  .rfq-workflow-card-head strong {
+    font-size: 15px;
+  }
+
+  .rfq-workflow-card-head span {
+    color: var(--article-muted);
+    font-size: 12px;
+  }
+
+  .rfq-workflow-step {
+    display: grid;
+    grid-template-columns: 34px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 13px;
+    border: 1px solid var(--article-line);
+    border-radius: 16px;
+    background: var(--article-surface);
+  }
+
+  .rfq-workflow-step-final {
+    border-color: rgba(3,102,249,.28);
+    background: linear-gradient(135deg, rgba(3,102,249,.09), rgba(74,209,252,.08));
+  }
+
+  .rfq-workflow-number {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 11px;
+    background: rgba(3,102,249,.1);
+    color: var(--article-blue);
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  .rfq-workflow-step div {
+    display: grid;
+    gap: 2px;
+  }
+
+  .rfq-workflow-step strong {
+    font-size: 13px;
+  }
+
+  .rfq-workflow-step div span {
+    color: var(--article-muted);
+    font-size: 11px;
+  }
+
+  .rfq-workflow-step > svg {
+    color: var(--article-blue);
+  }
+
+  .rfq-workflow-line {
+    width: 1px;
+    height: 12px;
+    margin-left: 30px;
+    background: linear-gradient(var(--article-blue), rgba(3,102,249,.15));
+  }
+
+  .rfq-article-content-section {
+    padding: 74px 0 92px;
+    background: var(--article-soft);
+  }
+
+  .rfq-article-content-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 310px;
+    gap: 34px;
+    align-items: start;
+  }
+
+  .rfq-article-card {
+    min-width: 0;
+    padding: 0 54px 48px;
+    border: 1px solid var(--article-line);
+    border-radius: 26px;
+    background: var(--article-surface);
+    box-shadow: 0 20px 55px rgba(15,23,42,.06);
+  }
+
+  .dark .rfq-article-card {
+    box-shadow: 0 20px 55px rgba(0,0,0,.22);
+  }
+
+  .rfq-article-card-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: center;
+    margin: 0 -54px 42px;
+    padding: 18px 28px;
+    border-bottom: 1px solid var(--article-line);
+  }
+
+  .rfq-article-card-top span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--article-blue);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .rfq-article-card-top a {
+    color: var(--article-muted);
+    font-size: 13px;
+    text-decoration: none;
+  }
+
+  .rfq-article-card-top a:hover {
+    color: var(--article-blue);
+  }
+
+  .rfq-article-prose {
+    color: #334155;
+    font-size: 17px;
+    line-height: 1.82;
+  }
+
+  .dark .rfq-article-prose {
+    color: #cbd5e1;
+  }
+
+  .rfq-article-prose > p:first-child {
+    margin-top: 0;
+    color: var(--article-ink);
+    font-size: 19px;
+    line-height: 1.75;
+  }
+
+  .rfq-article-prose p {
+    margin: 0 0 22px;
+  }
+
+  .rfq-article-prose h2 {
+    margin: 46px 0 18px;
+    padding-top: 8px;
+    font-size: 24px;
+    line-height: 1.3;
+    font-weight: 650;
+    color: var(--article-ink);
+  }
+
+  .rfq-article-prose h2::before {
+    content: "";
+    display: block;
+    width: 42px;
+    height: 4px;
+    margin-bottom: 16px;
+    border-radius: 99px;
+    background: linear-gradient(90deg, #4ad1fc, #0366f9);
+  }
+
+  .rfq-article-prose h3 {
+    margin: 36px 0 15px;
+    font-size: 21px;
+    line-height: 1.35;
+    font-weight: 700;
+    color: var(--article-ink);
+  }
+
+  .rfq-article-prose h4 {
+    margin: 28px 0 12px;
+    font-size: 18px;
+    line-height: 1.4;
+    font-weight: 700;
+    color: var(--article-ink);
+  }
+
+  .rfq-article-prose ul,
+  .rfq-article-prose ol {
+    margin: 0 0 24px;
+    padding-left: 24px;
+  }
+
+  .rfq-article-prose li {
+    margin: 9px 0;
+    padding-left: 4px;
+  }
+
+  .rfq-article-prose li::marker {
+    color: var(--article-blue);
+    font-weight: 700;
+  }
+
+  .rfq-article-prose strong {
+    color: var(--article-ink);
+    font-weight: 700;
+  }
+
+  .rfq-article-prose a {
+    color: var(--article-blue);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: rgba(3,102,249,.35);
+    text-underline-offset: 3px;
+  }
+
+  .rfq-article-prose blockquote {
+    margin: 30px 0;
+    padding: 20px 22px;
+    border-left: 4px solid var(--article-blue);
+    border-radius: 0 16px 16px 0;
+    background: rgba(3,102,249,.07);
+    color: var(--article-ink);
+  }
+
+  .rfq-article-prose code {
+    padding: 2px 6px;
+    border-radius: 6px;
+    background: rgba(3,102,249,.08);
+    color: var(--article-blue-dark);
+    font-size: .9em;
+  }
+
+  .rfq-article-prose img {
+    max-width: 100%;
+    height: auto;
+    margin: 30px 0;
+    border-radius: 18px;
+    border: 1px solid var(--article-line);
+  }
+
+  .rfq-article-prose table {
+    width: 100%;
+    margin: 30px 0;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+
+  .rfq-article-prose th,
+  .rfq-article-prose td {
+    padding: 13px 15px;
+    border: 1px solid var(--article-line);
+    text-align: left;
+  }
+
+  .rfq-article-prose th {
+    background: rgba(3,102,249,.08);
+    color: var(--article-ink);
+  }
+
+  .rfq-article-tools {
+    margin: 48px 0 0;
+    padding: 24px;
+    border: 1px solid rgba(3,102,249,.18);
+    border-radius: 22px;
+    background:
+      linear-gradient(135deg, rgba(3,102,249,.07), rgba(74,209,252,.06)),
+      var(--article-surface);
+  }
+
+  .rfq-article-tools-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: end;
+    margin-bottom: 18px;
+  }
+
+  .rfq-article-tools-head span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--article-blue);
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .rfq-article-tools-head p {
+    max-width: 340px;
+    margin: 0;
+    color: var(--article-muted);
+    font-size: 13px;
+    line-height: 1.55;
+    text-align: right;
+  }
+
+  .rfq-article-tool-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .rfq-article-tool-grid a {
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+    padding: 17px;
+    border: 1px solid var(--article-line);
+    border-radius: 17px;
+    background: var(--article-surface);
+    color: inherit;
+    text-decoration: none;
+    transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+  }
+
+  .rfq-article-tool-grid a:hover {
+    transform: translateY(-3px);
+    border-color: rgba(3,102,249,.3);
+    box-shadow: 0 16px 32px rgba(15,23,42,.08);
+  }
+
+  .rfq-article-tool-grid small {
+    color: var(--article-blue);
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .rfq-article-tool-grid strong {
+    color: var(--article-ink);
+    font-size: 15px;
+    line-height: 1.35;
+  }
+
+  .rfq-article-tool-grid span:last-child {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--article-muted);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .rfq-article-author-card {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    margin-top: 58px;
+    padding: 24px;
+    border: 1px solid rgba(3,102,249,.18);
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(3,102,249,.07), rgba(74,209,252,.06));
+  }
+
+  .rfq-article-author-card img {
+    flex: 0 0 auto;
+    width: 62px;
+    height: 62px;
+    border-radius: 18px;
+    object-fit: cover;
+  }
+
+  .rfq-article-author-card div {
+    display: grid;
+    gap: 4px;
+  }
+
+  .rfq-article-author-card span {
+    color: var(--article-blue);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .rfq-article-author-card h2 {
+    margin: 0;
+    color: var(--article-ink);
+    font-size: 18px;
+  }
+
+  .rfq-article-author-card p {
+    margin: 0;
+    color: var(--article-muted);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .rfq-article-sidebar {
+    position: sticky;
+    top: 104px;
+    display: grid;
+    gap: 22px;
+  }
+
+  .rfq-sidebar-card {
+    padding: 23px;
+    border: 1px solid var(--article-line);
+    border-radius: 22px;
+    background: var(--article-surface);
+    box-shadow: 0 18px 45px rgba(15,23,42,.05);
+  }
+
+  .rfq-sidebar-label {
+    display: block;
+    margin-bottom: 15px;
+    color: var(--article-blue);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .rfq-toc-card nav {
+    display: grid;
+    gap: 4px;
+  }
+
+  .rfq-toc-card a {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 8px;
+    padding: 9px 0;
+    color: var(--article-muted);
+    font-size: 13px;
+    line-height: 1.45;
+    text-decoration: none;
+    border-bottom: 1px solid var(--article-line);
+  }
+
+  .rfq-toc-card a:last-child {
+    border-bottom: 0;
+  }
+
+  .rfq-toc-card a:hover {
+    color: var(--article-blue);
+  }
+
+  .rfq-toc-card a span {
+    color: var(--article-blue);
+    font-size: 10px;
+    font-weight: 800;
+  }
+
+  .rfq-product-logo {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 17px;
+    padding: 5px;
+    border: 1px solid rgba(3,102,249,.15);
+    border-radius: 15px;
+    background: rgba(3,102,249,.06);
+  }
+
+  .rfq-product-logo img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+  }
+
+  .rfq-product-card h2 {
+    margin: 0 0 12px;
+    color: var(--article-ink);
+    font-size: 20px;
+    line-height: 1.35;
+  }
+
+  .rfq-product-card p {
+    margin: 0 0 19px;
+    color: var(--article-muted);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .rfq-product-card > a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 13px;
+    background: linear-gradient(135deg, #4ad1fc, #0366f9 55%, #0052d9);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 12px 25px rgba(3,102,249,.22);
+  }
+
+  .rfq-sidebar-links-card nav {
+    display: grid;
+    gap: 10px;
+  }
+
+  .rfq-sidebar-links-card nav a {
+    display: grid;
+    gap: 4px;
+    padding: 13px;
+    border: 1px solid var(--article-line);
+    border-radius: 14px;
+    color: inherit;
+    text-decoration: none;
+    background: rgba(3,102,249,.035);
+    transition: border-color .2s ease, background .2s ease;
+  }
+
+  .rfq-sidebar-links-card nav a:hover {
+    border-color: rgba(3,102,249,.32);
+    background: rgba(3,102,249,.07);
+  }
+
+  .rfq-sidebar-links-card strong {
+    color: var(--article-ink);
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  .rfq-sidebar-links-card nav span {
+    color: var(--article-muted);
+    font-size: 11px;
+  }
+
+  .rfq-related-section {
+    padding: 86px 0 100px;
+    background: #ffffff;
+  }
+
+  .dark .rfq-related-section {
+    background: #020617;
+  }
+
+  .rfq-related-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 24px;
+    margin-bottom: 28px;
+  }
+
+  .rfq-related-heading span {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--article-blue);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .rfq-related-heading h2 {
+    margin: 0;
+    color: var(--article-ink);
+    font-size: 30px;
+    line-height: 1.25;
+  }
+
+  .rfq-related-heading > a,
+  .rfq-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--article-blue);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .rfq-related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .rfq-related-card {
+    position: relative;
+    min-width: 0;
+    padding: 25px;
+    border: 1px solid var(--article-line);
+    border-radius: 22px;
+    background: var(--article-surface);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+
+  .rfq-related-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(3,102,249,.28);
+    box-shadow: 0 22px 46px rgba(15,23,42,.09);
+  }
+
+  .rfq-related-number {
+    position: absolute;
+    top: 20px;
+    right: 22px;
+    color: rgba(3,102,249,.18);
+    font-size: 28px;
+    font-weight: 800;
+  }
+
+  .rfq-related-card > span {
+    display: block;
+    margin-bottom: 15px;
+    color: var(--article-blue);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .rfq-related-card h3 {
+    margin: 0 0 12px;
+    padding-right: 32px;
+    font-size: 20px;
+    line-height: 1.38;
+  }
+
+  .rfq-related-card h3 a {
+    color: var(--article-ink);
+    text-decoration: none;
+  }
+
+  .rfq-related-card p {
+    margin: 0 0 18px;
+    color: var(--article-muted);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 980px) {
+    .rfq-article-hero-layout {
+      grid-template-columns: 1fr;
+      gap: 42px;
+    }
+
+    .rfq-article-workflow-card {
+      max-width: 560px;
+    }
+
+    .rfq-article-content-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .rfq-article-sidebar {
+      position: static;
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .rfq-article-container {
+      width: min(calc(100% - 28px), 1180px);
+    }
+
+    .rfq-article-hero {
+      padding: 118px 0 58px;
+    }
+
+    .rfq-article-hero h1 {
+      font-size: 34px;
+    }
+
+    .rfq-article-description {
+      font-size: 16px;
+    }
+
+    .rfq-article-content-section {
+      padding: 44px 0 64px;
+    }
+
+    .rfq-article-card {
+      padding: 0 23px 32px;
+      border-radius: 20px;
+    }
+
+    .rfq-article-card-top {
+      margin: 0 -23px 30px;
+      padding: 16px 20px;
+    }
+
+    .rfq-article-prose {
+      font-size: 16px;
+      line-height: 1.78;
+    }
+
+    .rfq-article-prose > p:first-child {
+      font-size: 17px;
+    }
+
+    .rfq-article-prose h2 {
+      margin-top: 38px;
+      font-size: 22px;
+      font-weight: 650;
+    }
+
+    .rfq-article-prose h3 {
+      margin-top: 30px;
+      font-size: 20px;
+    }
+
+    .rfq-article-sidebar {
+      grid-template-columns: 1fr;
+    }
+
+    .rfq-article-tools-head {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .rfq-article-tools-head p {
+      text-align: left;
+    }
+
+    .rfq-article-tool-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .rfq-related-heading {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .rfq-related-heading h2 {
+      font-size: 27px;
+    }
+
+    .rfq-related-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .rfq-article-breadcrumb {
+      display: none;
+    }
+
+    .rfq-article-hero h1 {
+      font-size: 31px;
+    }
+
+    .rfq-article-author-card {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .rfq-article-card-top {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rfq-premium-article *,
+    .rfq-premium-article *::before,
+    .rfq-premium-article *::after {
+      scroll-behavior: auto !important;
+      transition-duration: .01ms !important;
+      animation-duration: .01ms !important;
+    }
+  }
+</style>

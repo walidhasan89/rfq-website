@@ -1,0 +1,12 @@
+﻿---
+import RawLandingLayout from '@/layouts/RawLandingLayout.astro';
+import LandingPage from '@/react/landing-pages/gmail-chrome-extension-for-sales/App';
+import { buildLandingSchemas, getLandingSeo } from '@/data/landingSeo';
+import '@/react/landing-pages/gmail-chrome-extension-for-sales/index.css';
+
+const seo = getLandingSeo('gmail-chrome-extension-for-sales');
+const schemas = buildLandingSchemas(seo);
+---
+<RawLandingLayout title={seo.title} description={seo.description} canonical="/gmail-chrome-extension-for-sales" jsonLd={schemas}>
+  <LandingPage client:load />
+</RawLandingLayout>

@@ -1,0 +1,581 @@
+@import "./satoshi.css";
+
+:root {
+  --brand-400: #4ad1fc;
+  --brand-500: #0b73ff;
+  --brand-600: #0366f9;
+  --brand-700: #0052d9;
+  --gradient-brand: linear-gradient(135deg, #4ad1fc 0%, #2b92fc 28%, #0366f9 58%, #0024ba 100%);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 92px;
+}
+
+.rfq-island-header {
+  position: fixed;
+  z-index: 1000;
+  top: 12px;
+  left: 50%;
+  width: min(calc(100% - 28px), 1240px);
+  transform: translateX(-50%);
+  transition:
+    top 520ms cubic-bezier(.22, 1, .36, 1),
+    width 520ms cubic-bezier(.22, 1, .36, 1),
+    filter 520ms ease;
+  will-change: width, top;
+}
+
+.rfq-island-header.is-compact {
+  top: 14px;
+  width: min(calc(100% - 32px), 1040px);
+}
+
+.rfq-island-bar {
+  min-height: 68px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 22px;
+  padding: 8px 10px 8px 14px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: 0 16px 45px rgba(15, 23, 42, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  transition:
+    min-height 520ms cubic-bezier(.22, 1, .36, 1),
+    padding 520ms cubic-bezier(.22, 1, .36, 1),
+    background 320ms ease,
+    border-color 320ms ease,
+    box-shadow 320ms ease;
+  overflow: hidden;
+}
+
+.rfq-island-header.is-dark .rfq-island-bar {
+  background: rgba(5, 11, 31, 0.78);
+  border-color: rgba(96, 165, 250, 0.2);
+  box-shadow: 0 18px 50px rgba(2, 6, 23, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.rfq-island-header.is-compact .rfq-island-bar {
+  min-height: 58px;
+  padding: 6px 8px 6px 10px;
+  box-shadow: 0 18px 55px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.rfq-island-header.is-dark.is-compact .rfq-island-bar {
+  box-shadow: 0 20px 55px rgba(2, 6, 23, 0.52), 0 0 0 1px rgba(59, 130, 246, 0.06);
+}
+
+.rfq-island-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  color: #0f172a;
+  font-size: 1rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.rfq-island-header.is-dark .rfq-island-brand {
+  color: #fff;
+}
+
+.rfq-island-logo-wrap {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 38px;
+  border-radius: 13px;
+  background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(226,232,240,.74));
+  box-shadow: 0 8px 24px rgba(3, 102, 249, 0.18);
+  transition: transform 320ms ease;
+}
+
+.rfq-island-header.is-dark .rfq-island-logo-wrap {
+  background: rgba(15, 23, 42, .86);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.2), inset 0 0 0 1px rgba(96, 165, 250, .15);
+}
+
+.rfq-island-brand:hover .rfq-island-logo-wrap {
+  transform: rotate(-4deg) scale(1.06);
+}
+
+.rfq-island-logo {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.rfq-island-brand-copy {
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  opacity: 1;
+  transform: translateX(0);
+  transition:
+    max-width 520ms cubic-bezier(.22, 1, .36, 1),
+    opacity 260ms ease,
+    transform 520ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.rfq-island-brand-copy strong {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.rfq-island-header.is-compact .rfq-island-brand-copy {
+  max-width: 0;
+  opacity: 0;
+  transform: translateX(-8px);
+}
+
+.rfq-island-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.rfq-island-links a {
+  position: relative;
+  border-radius: 999px;
+  padding: 9px 13px;
+  color: #64748b;
+  font-size: .84rem;
+  font-weight: 650;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color 200ms ease, background 200ms ease, padding 520ms cubic-bezier(.22, 1, .36, 1), transform 200ms ease;
+}
+
+.rfq-island-header.is-dark .rfq-island-links a {
+  color: #a8b3c7;
+}
+
+.rfq-island-links a:hover {
+  color: #0f172a;
+  background: rgba(148, 163, 184, .13);
+  transform: translateY(-1px);
+}
+
+.rfq-island-header.is-dark .rfq-island-links a:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, .07);
+}
+
+.rfq-island-header.is-compact .rfq-island-links a {
+  padding-inline: 11px;
+}
+
+.rfq-island-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rfq-island-theme,
+.rfq-island-menu-toggle {
+  border: 1px solid rgba(148, 163, 184, .24);
+  border-radius: 999px;
+  color: #475569;
+  background: rgba(255, 255, 255, .62);
+}
+
+.rfq-island-theme {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  transition: background 220ms ease, transform 220ms ease;
+}
+
+.rfq-island-header.is-dark .rfq-island-theme,
+.rfq-island-header.is-dark .rfq-island-menu-toggle {
+  color: #fff;
+  background: rgba(255, 255, 255, .06);
+  border-color: rgba(255, 255, 255, .12);
+}
+
+.rfq-island-theme:hover {
+  transform: translateY(-1px) rotate(8deg);
+}
+
+.rfq-island-theme svg {
+  position: absolute;
+  transition: opacity 300ms ease, transform 420ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.rfq-island-header.is-light .rfq-theme-sun {
+  opacity: 0;
+  transform: rotate(-100deg) scale(.55);
+}
+
+.rfq-island-header.is-light .rfq-theme-moon {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+
+.rfq-island-header.is-dark .rfq-theme-sun {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+
+.rfq-island-header.is-dark .rfq-theme-moon {
+  opacity: 0;
+  transform: rotate(100deg) scale(.55);
+}
+
+.rfq-island-theme.is-switching {
+  animation: rfq-theme-pulse 520ms ease;
+}
+
+@keyframes rfq-theme-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); }
+  45% { box-shadow: 0 0 0 10px rgba(59,130,246,.12); }
+}
+
+.rfq-island-cta {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--gradient-brand);
+  background-size: 160% 160%;
+  box-shadow: 0 10px 26px rgba(37, 99, 235, .28);
+  font-size: .82rem;
+  font-weight: 750;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.rfq-island-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(37, 99, 235, .38);
+}
+
+.rfq-island-cta-arrow {
+  transition: transform 220ms ease;
+}
+
+.rfq-island-cta:hover .rfq-island-cta-arrow {
+  transform: translateX(3px);
+}
+
+.rfq-island-menu-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  position: relative;
+}
+
+.rfq-island-menu-toggle span {
+  position: absolute;
+  width: 17px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 280ms ease, opacity 200ms ease, top 280ms ease;
+}
+
+.rfq-island-menu-toggle span:nth-child(1) { top: 13px; }
+.rfq-island-menu-toggle span:nth-child(2) { top: 19px; }
+.rfq-island-menu-toggle span:nth-child(3) { top: 25px; }
+.rfq-island-menu-toggle.is-open span:nth-child(1) { top: 19px; transform: rotate(45deg); }
+.rfq-island-menu-toggle.is-open span:nth-child(2) { opacity: 0; transform: translateX(5px); }
+.rfq-island-menu-toggle.is-open span:nth-child(3) { top: 19px; transform: rotate(-45deg); }
+
+.rfq-mobile-overlay {
+  position: fixed;
+  z-index: 1100;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 280ms ease;
+}
+
+.rfq-mobile-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.rfq-mobile-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(2, 6, 23, .56);
+  backdrop-filter: blur(7px);
+}
+
+.rfq-mobile-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(88vw, 370px);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  color: #0f172a;
+  box-shadow: -24px 0 70px rgba(2, 6, 23, .22);
+  transform: translateX(105%);
+  transition: transform 420ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.rfq-mobile-overlay.is-dark .rfq-mobile-panel {
+  background: #0f172a;
+  color: #fff;
+}
+
+.rfq-mobile-overlay.is-open .rfq-mobile-panel {
+  transform: translateX(0);
+}
+
+.rfq-mobile-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid rgba(148, 163, 184, .18);
+}
+
+.rfq-mobile-head > button {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 12px;
+  color: inherit;
+  background: transparent;
+}
+
+.rfq-mobile-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.rfq-mobile-brand img {
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+}
+
+.rfq-mobile-brand strong {
+  color: #2563eb;
+}
+
+.rfq-mobile-links {
+  display: grid;
+  gap: 5px;
+  padding: 18px;
+  overflow-y: auto;
+}
+
+.rfq-mobile-links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 14px;
+  border-radius: 13px;
+  color: #475569;
+  font-size: .94rem;
+  font-weight: 700;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateX(18px);
+  transition: opacity 300ms ease var(--item-delay), transform 350ms cubic-bezier(.22,1,.36,1) var(--item-delay), background 180ms ease;
+}
+
+.rfq-mobile-overlay.is-dark .rfq-mobile-links a {
+  color: #cbd5e1;
+}
+
+.rfq-mobile-overlay.is-open .rfq-mobile-links a {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.rfq-mobile-links a:hover {
+  background: rgba(59, 130, 246, .08);
+  color: #2563eb;
+}
+
+.rfq-mobile-theme {
+  margin: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 14px;
+  border: 0;
+  border-radius: 13px;
+  color: #475569;
+  background: transparent;
+  font-weight: 700;
+}
+
+.rfq-mobile-overlay.is-dark .rfq-mobile-theme {
+  color: #cbd5e1;
+}
+
+.rfq-mobile-footer {
+  margin-top: auto;
+  padding: 18px;
+  border-top: 1px solid rgba(148, 163, 184, .18);
+}
+
+.rfq-mobile-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 14px;
+  border-radius: 15px;
+  color: #fff;
+  background: var(--gradient-brand);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.rfq-mobile-footer p {
+  margin: 9px 0 0;
+  text-align: center;
+  color: #94a3b8;
+  font-size: .72rem;
+}
+
+@media (max-width: 1080px) {
+  .rfq-island-header,
+  .rfq-island-header.is-compact {
+    width: min(calc(100% - 24px), 960px);
+  }
+
+  .rfq-island-links a {
+    padding-inline: 9px;
+    font-size: .8rem;
+  }
+
+  .rfq-island-brand-copy {
+    max-width: 124px;
+  }
+}
+
+@media (max-width: 900px) {
+  .rfq-island-header,
+  .rfq-island-header.is-compact {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    width: auto;
+    transform: none;
+  }
+
+  .rfq-island-bar,
+  .rfq-island-header.is-compact .rfq-island-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    min-height: 60px;
+    padding: 7px 8px 7px 10px;
+    border-radius: 18px;
+    overflow: visible;
+  }
+
+  .rfq-island-links {
+    display: none;
+  }
+
+  .rfq-island-brand {
+    flex: 1 1 auto;
+    max-width: calc(100% - 100px);
+  }
+
+  .rfq-island-actions {
+    flex: 0 0 auto;
+    min-width: 88px;
+    margin-left: auto;
+    justify-content: flex-end;
+  }
+
+  .rfq-island-brand-copy,
+  .rfq-island-header.is-compact .rfq-island-brand-copy {
+    max-width: 150px;
+    opacity: 1;
+    transform: none;
+  }
+
+  .rfq-island-menu-toggle {
+    display: grid;
+    flex: 0 0 40px;
+  }
+}
+
+@media (max-width: 560px) {
+  .rfq-island-brand-copy {
+    font-size: .9rem;
+  }
+
+  .rfq-island-theme,
+  .rfq-island-header.is-compact .rfq-island-theme {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+  }
+
+  .rfq-island-cta {
+    display: none;
+  }
+
+  .rfq-island-logo-wrap {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+  }
+}
+
+@media (max-width: 420px) {
+  .rfq-island-brand-copy,
+  .rfq-island-header.is-compact .rfq-island-brand-copy {
+    max-width: 82px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rfq-island-header,
+  .rfq-island-bar,
+  .rfq-island-brand-copy,
+  .rfq-island-links a,
+  .rfq-island-theme,
+  .rfq-island-theme svg,
+  .rfq-island-cta,
+  .rfq-mobile-overlay,
+  .rfq-mobile-panel,
+  .rfq-mobile-links a {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

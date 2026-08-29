@@ -1,0 +1,40 @@
+# RFQ AutoPilot
+
+> RFQ AutoPilot helps suppliers, distributors, manufacturers, wholesalers, and B2B sales teams turn incoming RFQs into professional branded quotations faster.
+
+Public site: https://rfqautopilot.com
+Sitemap index: https://rfqautopilot.com/sitemap-index.xml
+Legacy sitemap: https://rfqautopilot.com/sitemap.xml
+Blog: https://rfqautopilot.com/blog
+
+## Core Pages
+
+- Home: https://rfqautopilot.com
+- RFQ automation software: https://rfqautopilot.com/rfq-automation-software
+- RFQ email management tool: https://rfqautopilot.com/rfq-email-management-tool
+- RFQ response software: https://rfqautopilot.com/rfq-response-software
+- AI RFQ processing tool: https://rfqautopilot.com/ai-rfq-processing-tool
+- RFQ email automation: https://rfqautopilot.com/rfq-email-automation
+- Quotation email automation: https://rfqautopilot.com/quotation-email-automation
+- Quotation builder: https://rfqautopilot.com/quotation-builder
+- RFQ software for distributors: https://rfqautopilot.com/rfq-software-for-distributors
+- RFQ software for manufacturers: https://rfqautopilot.com/rfq-software-for-manufacturers
+- RFQ data extraction from PDF: https://rfqautopilot.com/rfq-data-extraction-from-pdf
+- Gmail RFQ extension: https://rfqautopilot.com/gmail-rfq-extension
+- Gmail Chrome extension for sales: https://rfqautopilot.com/gmail-chrome-extension-for-sales
+- Outlook RFQ workflow: https://rfqautopilot.com/outlook-rfq-workflow
+- Outlook add-in for RFQ: https://rfqautopilot.com/outlook-add-in-for-rfq
+- RFQ PDF data extraction: https://rfqautopilot.com/rfq-pdf-data-extraction
+- RFQ management for export companies: https://rfqautopilot.com/rfq-management-for-export-companies
+- Procurement Chrome extension: https://rfqautopilot.com/procurement-chrome-extension
+- Author: https://rfqautopilot.com/walidhasan
+
+## Policies
+
+- Privacy policy: https://rfqautopilot.com/privacy
+- Terms: https://rfqautopilot.com/terms
+- Disclaimer: https://rfqautopilot.com/disclaimer
+
+## Notes For AI Agents
+
+Public marketing, product, SEO landing page, and blog content may be crawled and summarized. Form completion, account access, checkout, private dashboards, and thank-you pages are not part of the public content corpus.

@@ -1,0 +1,95 @@
+---
+import Icon from '@/components/Icon.astro';
+import { navLinks, site } from '@/data/site';
+---
+<header class="site-header rfq-static-island" data-header>
+  <div class="container nav-shell rfq-static-island-bar">
+    <a class="brand" href="/" aria-label="RFQ AutoPilot home">
+      <span class="rfq-static-logo-wrap">
+        <img src="/logo.png" width="42" height="42" alt="" />
+      </span>
+      <span class="rfq-static-brand-copy">RFQ <strong>AutoPilot</strong></span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Main navigation">
+      {navLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+    </nav>
+
+    <div class="nav-actions">
+      <button class="icon-button rfq-static-theme" type="button" data-theme-toggle aria-label="Switch color theme">
+        <span data-theme-icon="light"><Icon name="moon" size={18} /></span>
+        <span data-theme-icon="dark"><Icon name="sun" size={18} /></span>
+      </button>
+      <a class="button button-primary desktop-cta rfq-static-cta" href={site.chromeStoreUrl} target="_blank" rel="noopener noreferrer">
+        <Icon name="chrome" size={17} />
+        <span>Add to Chrome</span>
+        <span class="rfq-static-cta-arrow"><Icon name="arrow-right" size={15} /></span>
+      </a>
+      <button class="icon-button menu-button" type="button" data-menu-open aria-label="Open navigation menu" aria-controls="mobile-navigation">
+        <Icon name="menu" size={21} />
+      </button>
+    </div>
+  </div>
+</header>
+
+<dialog class="mobile-menu" id="mobile-navigation" data-mobile-menu aria-label="Mobile navigation">
+  <div class="mobile-menu-panel">
+    <div class="mobile-menu-head">
+      <a class="brand" href="/">
+        <img src="/logo.png" width="38" height="38" alt="" />
+        <span>RFQ <strong>AutoPilot</strong></span>
+      </a>
+      <button class="icon-button" type="button" data-menu-close aria-label="Close navigation menu">
+        <Icon name="x" size={21} />
+      </button>
+    </div>
+    <nav aria-label="Mobile navigation">
+      {navLinks.map((link) => <a href={link.href} data-menu-link>{link.label}</a>)}
+    </nav>
+    <button class="rfq-static-mobile-theme" type="button" data-mobile-theme-toggle>
+      <span data-mobile-theme-label>Switch color theme</span>
+      <span data-theme-icon="light"><Icon name="moon" size={18} /></span>
+      <span data-theme-icon="dark"><Icon name="sun" size={18} /></span>
+    </button>
+    <a class="button button-primary mobile-menu-cta" href={site.chromeStoreUrl} target="_blank" rel="noopener noreferrer">
+      <Icon name="chrome" size={18} />
+      Add to Chrome, Free
+    </a>
+  </div>
+</dialog>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const themeToggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+  const mobileThemeToggle = document.querySelector<HTMLButtonElement>('[data-mobile-theme-toggle]');
+  const menu = document.querySelector<HTMLDialogElement>('[data-mobile-menu]');
+  const menuOpen = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+  const menuClose = document.querySelector<HTMLButtonElement>('[data-menu-close]');
+
+  const syncHeader = () => header?.classList.toggle('is-scrolled', window.scrollY > 72);
+  syncHeader();
+  window.addEventListener('scroll', syncHeader, { passive: true });
+
+  const toggleTheme = () => {
+    const current = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem('rfq-theme', next);
+    themeToggle?.classList.add('is-switching');
+    window.setTimeout(() => themeToggle?.classList.remove('is-switching'), 520);
+  };
+
+  themeToggle?.addEventListener('click', toggleTheme);
+  mobileThemeToggle?.addEventListener('click', toggleTheme);
+
+  const closeMenu = () => {
+    if (menu?.open) menu.close();
+  };
+
+  menuOpen?.addEventListener('click', () => menu?.showModal());
+  menuClose?.addEventListener('click', closeMenu);
+  menu?.addEventListener('click', (event) => {
+    if (event.target === menu) closeMenu();
+  });
+  menu?.querySelectorAll('[data-menu-link]').forEach((link) => link.addEventListener('click', closeMenu));
+</script>

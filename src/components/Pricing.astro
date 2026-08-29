@@ -1,0 +1,80 @@
+---
+import Icon from '@/components/Icon.astro';
+import { pricingPlans, site } from '@/data/site';
+---
+<section class="section pricing-section" id="pricing">
+  <div class="container">
+    <div class="section-heading center" data-reveal>
+      <span class="eyebrow">Simple pricing</span>
+      <h2>Start free and upgrade when your quote volume grows</h2>
+      <p>Choose the plan that matches your RFQ workload. The extension remains free to install.</p>
+      <div class="billing-toggle" role="group" aria-label="Billing period">
+        <button class="active" type="button" data-billing="monthly" aria-pressed="true">Monthly</button>
+        <button type="button" data-billing="yearly" aria-pressed="false">Yearly <span>Save up to 17%</span></button>
+      </div>
+    </div>
+
+    <div class="pricing-grid">
+      {pricingPlans.map((plan, index) => (
+        <article class:list={['pricing-card', plan.popular && 'popular']} data-reveal style={`--delay:${index * 80}ms`}>
+          {plan.popular && <div class="popular-label">Most popular</div>}
+          <div class="plan-head">
+            <div>
+              <span class="plan-name">{plan.name}</span>
+              <p>{plan.description}</p>
+            </div>
+            <div class="plan-icon"><Icon name={plan.id === 'free' ? 'chrome' : plan.id === 'solo' ? 'user' : 'users'} size={21} /></div>
+          </div>
+          <div class="plan-price">
+            {plan.monthly === 0 ? (
+              <strong>Free</strong>
+            ) : (
+              <>
+                <strong data-price-monthly={`$${plan.monthly}`} data-price-yearly={`$${plan.yearly}`}>${plan.monthly}</strong>
+                <span data-period>/month</span>
+              </>
+            )}
+          </div>
+          {plan.monthly > 0 && <p class="billing-note" data-billing-note>Cancel anytime from your account.</p>}
+          <ul class="feature-list">
+            {plan.features.map((feature) => (
+              <li class:list={[feature.emphasized && 'emphasized']}><Icon name="check" size={16} /> <span>{feature.text}</span></li>
+            ))}
+          </ul>
+          <a class:list={['button', plan.popular ? 'button-primary' : 'button-secondary', 'plan-button']} href={site.chromeStoreUrl} target="_blank" rel="noopener noreferrer">
+            {plan.id === 'free' ? 'Add to Chrome' : `Start ${plan.name}`}
+            <Icon name="arrow-right" size={17} />
+          </a>
+        </article>
+      ))}
+    </div>
+    <p class="pricing-disclaimer">Current limits and checkout terms shown inside the extension take priority if pricing is updated.</p>
+  </div>
+</section>
+
+<script>
+  const billingButtons = document.querySelectorAll<HTMLButtonElement>('[data-billing]');
+  const priceElements = document.querySelectorAll<HTMLElement>('[data-price-monthly]');
+  const periodElements = document.querySelectorAll<HTMLElement>('[data-period]');
+  const noteElements = document.querySelectorAll<HTMLElement>('[data-billing-note]');
+
+  billingButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const yearly = button.dataset.billing === 'yearly';
+      billingButtons.forEach((item) => {
+        const active = item === button;
+        item.classList.toggle('active', active);
+        item.setAttribute('aria-pressed', String(active));
+      });
+      priceElements.forEach((element) => {
+        element.textContent = yearly ? element.dataset.priceYearly || '' : element.dataset.priceMonthly || '';
+      });
+      periodElements.forEach((element) => {
+        element.textContent = yearly ? '/year' : '/month';
+      });
+      noteElements.forEach((element) => {
+        element.textContent = yearly ? 'Billed annually. Cancel future renewal anytime.' : 'Cancel anytime from your account.';
+      });
+    });
+  });
+</script>

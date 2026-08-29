@@ -1,0 +1,41 @@
+---
+import LegalLayout from '@/layouts/LegalLayout.astro';
+import { site } from '@/data/site';
+---
+<LegalLayout
+  title="Disclaimer"
+  description="Important limitations for RFQ extraction, AI-generated content, quotation calculations, technical review, and business decisions."
+  canonical="/disclaimer"
+  contactEmail={site.legalEmail}
+>
+  <h2>1. Workflow tool, not professional advice</h2>
+  <p>RFQ AutoPilot is a productivity and document-preparation tool. It does not provide engineering, legal, tax, accounting, compliance, procurement, export-control, credit, insurance, or financial advice.</p>
+
+  <h2>2. Extraction and AI output</h2>
+  <p>RFQ extraction and generated content can contain errors. The service may miss text, misunderstand tables, confuse units, misread scans, omit attachments, or produce wording that does not match the original buyer request.</p>
+  <p>Always compare extracted and generated content with the original email, PDF, spreadsheet, drawing, specification, and approved internal information.</p>
+
+  <h2>3. Pricing and calculations</h2>
+  <p>You are responsible for verifying unit prices, quantities, discounts, taxes, freight, currency, exchange rates, subtotals, totals, margins, and all other calculations. Do not rely on generated totals without an independent review.</p>
+
+  <h2>4. Technical requirements</h2>
+  <p>The extension does not determine whether your product or service meets drawings, standards, tolerances, materials, certifications, safety requirements, regulatory obligations, or buyer specifications. Qualified personnel must review technical feasibility.</p>
+
+  <h2>5. Commercial and contractual terms</h2>
+  <p>You are responsible for quotation validity, payment, delivery, lead time, warranty, returns, cancellation, liability, intellectual property, confidentiality, export, import, and other commercial terms.</p>
+
+  <h2>6. No guarantee of acceptance or sales results</h2>
+  <p>Using RFQ AutoPilot does not guarantee that a buyer will accept a quotation, place an order, pay an invoice, or continue a business relationship.</p>
+
+  <h2>7. Third-party services</h2>
+  <p>The service may depend on browser platforms, email providers, payment systems, hosting, AI processing, and other third-party services. Their availability, policies, and technical behavior are outside our direct control.</p>
+
+  <h2>8. Product screenshots and examples</h2>
+  <p>Website interface previews, buyer names, part numbers, RFQ references, prices, and quotation values are illustrative examples unless explicitly identified as real customer material.</p>
+
+  <h2>9. Early-stage product information</h2>
+  <p>Features, limits, prices, and integrations may change as the product develops. The current extension interface, Chrome Web Store listing, and checkout information should be treated as the most current product description.</p>
+
+  <h2>10. Contact</h2>
+  <p>Questions about this Disclaimer may be sent to <a href={`mailto:${site.legalEmail}`}>{site.legalEmail}</a>.</p>
+</LegalLayout>

@@ -1,0 +1,12 @@
+﻿---
+import RawLandingLayout from '@/layouts/RawLandingLayout.astro';
+import LandingPage from '@/react/landing-pages/rfq-automation-software/App';
+import { buildLandingSchemas, getLandingSeo } from '@/data/landingSeo';
+import '@/react/landing-pages/rfq-automation-software/index.css';
+
+const seo = getLandingSeo('rfq-automation-software');
+const schemas = buildLandingSchemas(seo);
+---
+<RawLandingLayout title={seo.title} description={seo.description} canonical="/rfq-automation-software" jsonLd={schemas}>
+  <LandingPage client:load />
+</RawLandingLayout>

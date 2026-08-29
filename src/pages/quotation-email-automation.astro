@@ -1,0 +1,12 @@
+﻿---
+import RawLandingLayout from '@/layouts/RawLandingLayout.astro';
+import LandingPage from '@/react/landing-pages/quotation-email-automation/App';
+import { buildLandingSchemas, getLandingSeo } from '@/data/landingSeo';
+import '@/react/landing-pages/quotation-email-automation/index.css';
+
+const seo = getLandingSeo('quotation-email-automation');
+const schemas = buildLandingSchemas(seo);
+---
+<RawLandingLayout title={seo.title} description={seo.description} canonical="/quotation-email-automation" jsonLd={schemas}>
+  <LandingPage client:load />
+</RawLandingLayout>

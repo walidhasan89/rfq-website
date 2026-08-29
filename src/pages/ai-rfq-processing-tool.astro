@@ -1,0 +1,12 @@
+﻿---
+import RawLandingLayout from '@/layouts/RawLandingLayout.astro';
+import LandingPage from '@/react/landing-pages/ai-rfq-processing-tool/App';
+import { buildLandingSchemas, getLandingSeo } from '@/data/landingSeo';
+import '@/react/landing-pages/ai-rfq-processing-tool/index.css';
+
+const seo = getLandingSeo('ai-rfq-processing-tool');
+const schemas = buildLandingSchemas(seo);
+---
+<RawLandingLayout title={seo.title} description={seo.description} canonical="/ai-rfq-processing-tool" jsonLd={schemas}>
+  <LandingPage client:load />
+</RawLandingLayout>

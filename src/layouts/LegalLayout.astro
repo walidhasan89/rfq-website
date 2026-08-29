@@ -1,0 +1,107 @@
+---
+import OriginalLayout from '@/layouts/OriginalLayout.astro';
+import Icon from '@/components/Icon.astro';
+import LegalNavbarIsland from '@/react/LegalNavbarIsland';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  updated?: string;
+  contactEmail: string;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  updated = 'July 12, 2026',
+  contactEmail,
+} = Astro.props;
+
+const activePath = canonical.startsWith('/') ? canonical : `/${canonical}`;
+---
+<OriginalLayout
+  title={`${title} | RFQ AutoPilot`}
+  description={description}
+  canonical={canonical}
+>
+  <div class="rfq-legal-shell">
+    <LegalNavbarIsland client:load currentPath={activePath} />
+
+    <main id="main-content" class="rfq-legal-main">
+      <section class="rfq-legal-hero">
+        <div class="rfq-legal-grid" aria-hidden="true"></div>
+        <div class="rfq-legal-glow rfq-legal-glow-one" aria-hidden="true"></div>
+        <div class="rfq-legal-glow rfq-legal-glow-two" aria-hidden="true"></div>
+
+        <div class="rfq-legal-container rfq-legal-hero-inner">
+          <nav class="rfq-legal-breadcrumbs" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span aria-hidden="true">/</span>
+            <span>{title}</span>
+          </nav>
+
+          <div class="rfq-legal-eyebrow">
+            <Icon name="shield" size={16} />
+            Legal Center
+          </div>
+
+          <h1>{title}</h1>
+          <p>{description}</p>
+
+          <div class="rfq-legal-meta">
+            <span>
+              <Icon name="calendar" size={16} />
+              Last updated: {updated}
+            </span>
+            <a href={`mailto:${contactEmail}`}>
+              <Icon name="mail" size={16} />
+              {contactEmail}
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="rfq-legal-body">
+        <div class="rfq-legal-container rfq-legal-layout">
+          <aside class="rfq-legal-aside">
+            <div class="rfq-legal-aside-card">
+              <div class="rfq-legal-aside-icon">
+                <Icon name="file-text" size={21} />
+              </div>
+              <span class="rfq-legal-aside-label">Legal documents</span>
+              <strong>RFQ AutoPilot</strong>
+
+              <nav aria-label="Legal pages">
+                <a class:list={{ active: activePath === '/privacy' }} href="/privacy">Privacy Policy</a>
+                <a class:list={{ active: activePath === '/terms' }} href="/terms">Terms of Use</a>
+                <a class:list={{ active: activePath === '/disclaimer' }} href="/disclaimer">Disclaimer</a>
+              </nav>
+
+              <div class="rfq-legal-help">
+                <Icon name="mail" size={17} />
+                <div>
+                  <span>Questions?</span>
+                  <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <article class="rfq-legal-content">
+            <div class="rfq-legal-content-intro">
+              <span>Transparent and easy to understand</span>
+              <p>Please read this document carefully. It explains the policies and responsibilities connected to RFQ AutoPilot.</p>
+            </div>
+
+            <div class="rfq-legal-prose">
+              <slot />
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+  </div>
+</OriginalLayout>

@@ -1,0 +1,12 @@
+﻿---
+import RawLandingLayout from '@/layouts/RawLandingLayout.astro';
+import LandingPage from '@/react/landing-pages/rfq-data-extraction-from-pdf/App';
+import { buildLandingSchemas, getLandingSeo } from '@/data/landingSeo';
+import '@/react/landing-pages/rfq-data-extraction-from-pdf/index.css';
+
+const seo = getLandingSeo('rfq-data-extraction-from-pdf');
+const schemas = buildLandingSchemas(seo);
+---
+<RawLandingLayout title={seo.title} description={seo.description} canonical="/rfq-data-extraction-from-pdf" jsonLd={schemas}>
+  <LandingPage client:load />
+</RawLandingLayout>

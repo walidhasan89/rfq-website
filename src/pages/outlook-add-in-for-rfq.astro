@@ -1,0 +1,12 @@
+﻿---
+import RawLandingLayout from '@/layouts/RawLandingLayout.astro';
+import LandingPage from '@/react/landing-pages/outlook-add-in-for-rfq/App';
+import { buildLandingSchemas, getLandingSeo } from '@/data/landingSeo';
+import '@/react/landing-pages/outlook-add-in-for-rfq/index.css';
+
+const seo = getLandingSeo('outlook-add-in-for-rfq');
+const schemas = buildLandingSchemas(seo);
+---
+<RawLandingLayout title={seo.title} description={seo.description} canonical="/outlook-add-in-for-rfq" jsonLd={schemas}>
+  <LandingPage client:load />
+</RawLandingLayout>

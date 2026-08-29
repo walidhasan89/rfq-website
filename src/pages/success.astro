@@ -1,0 +1,29 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Icon from '@/components/Icon.astro';
+import { site } from '@/data/site';
+---
+<BaseLayout
+  title="Checkout Return | RFQ AutoPilot"
+  description="Return page after RFQ AutoPilot checkout. Subscription access activates after payment confirmation."
+  canonical="/success"
+  noindex
+>
+  <section class="status-page">
+    <div class="status-card" data-reveal>
+      <div class="status-icon"><Icon name="check" size={34} /></div>
+      <span class="eyebrow">Checkout return received</span>
+      <h1>Complete activation inside RFQ AutoPilot</h1>
+      <p>This page does not independently verify payment. Your plan should activate only after the payment provider and RFQ AutoPilot account confirm the transaction.</p>
+      <ol class="status-steps">
+        <li><span>1</span><div><strong>Open the extension</strong><small>Return to RFQ AutoPilot in Chrome.</small></div></li>
+        <li><span>2</span><div><strong>Refresh your account</strong><small>Allow the extension to confirm the latest subscription status.</small></div></li>
+        <li><span>3</span><div><strong>Contact support if needed</strong><small>Include the email used during checkout, but never send full card details.</small></div></li>
+      </ol>
+      <div class="status-actions">
+        <a class="button button-primary button-large" href={site.chromeStoreUrl} target="_blank" rel="noopener noreferrer"><Icon name="chrome" size={18} /> Open Chrome listing</a>
+        <a class="button button-secondary button-large" href={`mailto:${site.supportEmail}`}><Icon name="mail" size={18} /> Contact support</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

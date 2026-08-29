@@ -1,0 +1,56 @@
+---
+import OriginalLayout from '@/layouts/OriginalLayout.astro';
+import HomeApp from '@/react/HomeApp';
+import { site } from '@/data/site';
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'RFQ AutoPilot',
+  url: site.url,
+  logo: `${site.url}/logo.png`,
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: site.supportEmail,
+    contactType: 'Customer Support',
+  },
+};
+
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  '@id': `${site.url}/#software`,
+  name: 'RFQ AutoPilot',
+  url: site.url,
+  description: site.description,
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Chrome Browser, Gmail, Outlook',
+  downloadUrl: site.chromeStoreUrl,
+  publisher: {
+    '@type': 'Organization',
+    name: site.legalName,
+    url: site.companyUrl,
+    logo: `${site.url}/logo.png`,
+  },
+  featureList: [
+    'RFQ email detection',
+    'RFQ data extraction from emails and attachments',
+    'Branded quotation builder',
+    'Professional PDF quote export',
+    'Gmail and Outlook workflow support',
+  ],
+  offers: [
+    { '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD' },
+    { '@type': 'Offer', name: 'Solo', price: '14.99', priceCurrency: 'USD' },
+    { '@type': 'Offer', name: 'Pro', price: '29.99', priceCurrency: 'USD' },
+  ],
+};
+---
+<OriginalLayout
+  title="RFQ AutoPilot - RFQ Response and Quotation Chrome Extension"
+  description="Turn incoming buyer RFQs from emails and attachments into professional branded quotations faster with RFQ AutoPilot for suppliers, distributors, manufacturers, and B2B sales teams."
+  canonical="/"
+  jsonLd={[organizationSchema, softwareSchema]}
+>
+  <HomeApp client:load />
+</OriginalLayout>
